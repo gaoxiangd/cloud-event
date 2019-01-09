@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.welian.mapper.EventSponsorManageMapper">
+  <resultMap id="BaseResultMap" type="com.welian.pojo.EventSponsorManage">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="event_id" jdbcType="INTEGER" property="eventId" />
+    <result column="name" jdbcType="VARCHAR" property="sponsorName" />
+  </resultMap>
+
+  <select id="selectSponsorsByEventIds"  resultMap="BaseResultMap">
+    select e.id, e.name,er.event_id
+    from event_sponsor_relation er JOIN event_sponsor e on er.sponsor_id = e.id
+    where er.event_id IN
+    <foreach item="id" index="index" collection="list" open="(" separator="," close=")">
+      #{id,jdbcType=INTEGER}
+    </foreach>
+  </select>
+
+
+</mapper>

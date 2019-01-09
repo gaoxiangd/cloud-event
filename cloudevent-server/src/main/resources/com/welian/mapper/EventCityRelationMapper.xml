@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.welian.mapper.EventCityRelationMapper">
+  <resultMap id="BaseResultMap" type="com.welian.pojo.EventCityRelation">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="city_id" jdbcType="INTEGER" property="cityId" />
+    <result column="event_id" jdbcType="INTEGER" property="eventId" />
+    <result column="hot_time" jdbcType="BIGINT" property="hotTime" />
+    <result column="recommend_time" jdbcType="BIGINT" property="recommendTime" />
+    <result column="hot_state" jdbcType="INTEGER" property="hotState" />
+    <result column="recommend_state" jdbcType="INTEGER" property="recommendState" />
+    <result column="recommend_home_status" jdbcType="TINYINT" property="recommendHomeStatus" />
+    <result column="recommend_financing_state" jdbcType="INTEGER" property="recommendFinancingState" />
+    <result column="recommend_financing_time" jdbcType="INTEGER" property="recommendFinancingTime" />
+    <result column="recommend_home_time" jdbcType="BIGINT" property="recommendHomeTime" />
+    <result column="unrecommend_home_time" jdbcType="BIGINT" property="unrecommendHomeTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, city_id, event_id, hot_time, recommend_time, hot_state, recommend_state, recommend_home_status, 
+    recommend_financing_state, recommend_home_time, unrecommend_home_time, create_time, modify_time
+  </sql>
+  <select id="selectByExample" parameterType="com.welian.pojo.EventCityRelationExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from event_city_relation
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from event_city_relation
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from event_city_relation
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.welian.pojo.EventCityRelationExample">
+    delete from event_city_relation
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.welian.pojo.EventCityRelation" useGeneratedKeys="true">
+    insert into event_city_relation (city_id, event_id, hot_time, 
+      recommend_time, hot_state, recommend_state, 
+      recommend_home_status, recommend_financing_state, 
+      recommend_home_time, unrecommend_home_time, create_time, 
+      modify_time)
+    values (#{cityId,jdbcType=INTEGER}, #{eventId,jdbcType=INTEGER}, #{hotTime,jdbcType=BIGINT}, 
+      #{recommendTime,jdbcType=BIGINT}, #{hotState,jdbcType=INTEGER}, #{recommendState,jdbcType=INTEGER}, 
+      #{recommendHomeStatus,jdbcType=TINYINT}, #{recommendFinancingState,jdbcType=INTEGER}, 
+      #{recommendHomeTime,jdbcType=BIGINT}, #{unrecommendHomeTime,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifyTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.welian.pojo.EventCityRelation" useGeneratedKeys="true">
+    insert into event_city_relation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cityId != null">
+        city_id,
+      </if>
+      <if test="eventId != null">
+        event_id,
+      </if>
+      <if test="hotTime != null">
+        hot_time,
+      </if>
+      <if test="recommendTime != null">
+        recommend_time,
+      </if>
+      <if test="hotState != null">
+        hot_state,
+      </if>
+      <if test="recommendState != null">
+        recommend_state,
+      </if>
+      <if test="recommendHomeStatus != null">
+        recommend_home_status,
+      </if>
+      <if test="recommendFinancingState != null">
+        recommend_financing_state,
+      </if>
+      <if test="recommendHomeTime != null">
+        recommend_home_time,
+      </if>
+      <if test="unrecommendHomeTime != null">
+        unrecommend_home_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cityId != null">
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="eventId != null">
+        #{eventId,jdbcType=INTEGER},
+      </if>
+      <if test="hotTime != null">
+        #{hotTime,jdbcType=BIGINT},
+      </if>
+      <if test="recommendTime != null">
+        #{recommendTime,jdbcType=BIGINT},
+      </if>
+      <if test="hotState != null">
+        #{hotState,jdbcType=INTEGER},
+      </if>
+      <if test="recommendState != null">
+        #{recommendState,jdbcType=INTEGER},
+      </if>
+      <if test="recommendHomeStatus != null">
+        #{recommendHomeStatus,jdbcType=TINYINT},
+      </if>
+      <if test="recommendFinancingState != null">
+        #{recommendFinancingState,jdbcType=INTEGER},
+      </if>
+      <if test="recommendHomeTime != null">
+        #{recommendHomeTime,jdbcType=BIGINT},
+      </if>
+      <if test="unrecommendHomeTime != null">
+        #{unrecommendHomeTime,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.welian.pojo.EventCityRelationExample" resultType="java.lang.Long">
+    select count(*) from event_city_relation
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="groupByClause != null">
+      group by ${groupByClause}
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update event_city_relation
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.cityId != null">
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.eventId != null">
+        event_id = #{record.eventId,jdbcType=INTEGER},
+      </if>
+      <if test="record.hotTime != null">
+        hot_time = #{record.hotTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.recommendTime != null">
+        recommend_time = #{record.recommendTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.hotState != null">
+        hot_state = #{record.hotState,jdbcType=INTEGER},
+      </if>
+      <if test="record.recommendState != null">
+        recommend_state = #{record.recommendState,jdbcType=INTEGER},
+      </if>
+      <if test="record.recommendHomeStatus != null">
+        recommend_home_status = #{record.recommendHomeStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.recommendFinancingState != null">
+        recommend_financing_state = #{record.recommendFinancingState,jdbcType=INTEGER},
+      </if>
+      <if test="record.recommendHomeTime != null">
+        recommend_home_time = #{record.recommendHomeTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.unrecommendHomeTime != null">
+        unrecommend_home_time = #{record.unrecommendHomeTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifyTime != null">
+        modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update event_city_relation
+    set id = #{record.id,jdbcType=INTEGER},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      event_id = #{record.eventId,jdbcType=INTEGER},
+      hot_time = #{record.hotTime,jdbcType=BIGINT},
+      recommend_time = #{record.recommendTime,jdbcType=BIGINT},
+      hot_state = #{record.hotState,jdbcType=INTEGER},
+      recommend_state = #{record.recommendState,jdbcType=INTEGER},
+      recommend_home_status = #{record.recommendHomeStatus,jdbcType=TINYINT},
+      recommend_financing_state = #{record.recommendFinancingState,jdbcType=INTEGER},
+      recommend_home_time = #{record.recommendHomeTime,jdbcType=BIGINT},
+      unrecommend_home_time = #{record.unrecommendHomeTime,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      modify_time = #{record.modifyTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.welian.pojo.EventCityRelation">
+    update event_city_relation
+    <set>
+      <if test="cityId != null">
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="eventId != null">
+        event_id = #{eventId,jdbcType=INTEGER},
+      </if>
+      <if test="hotTime != null">
+        hot_time = #{hotTime,jdbcType=BIGINT},
+      </if>
+      <if test="recommendTime != null">
+        recommend_time = #{recommendTime,jdbcType=BIGINT},
+      </if>
+      <if test="hotState != null">
+        hot_state = #{hotState,jdbcType=INTEGER},
+      </if>
+      <if test="recommendState != null">
+        recommend_state = #{recommendState,jdbcType=INTEGER},
+      </if>
+      <if test="recommendHomeStatus != null">
+        recommend_home_status = #{recommendHomeStatus,jdbcType=TINYINT},
+      </if>
+      <if test="recommendFinancingState != null">
+        recommend_financing_state = #{recommendFinancingState,jdbcType=INTEGER},
+      </if>
+      <if test="recommendFinancingTime != null">
+        recommend_financing_time = #{recommendFinancingTime,jdbcType=INTEGER},
+      </if>
+      <if test="recommendHomeTime != null">
+        recommend_home_time = #{recommendHomeTime,jdbcType=BIGINT},
+      </if>
+      <if test="unrecommendHomeTime != null">
+        unrecommend_home_time = #{unrecommendHomeTime,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.welian.pojo.EventCityRelation">
+    update event_city_relation
+    set city_id = #{cityId,jdbcType=INTEGER},
+      event_id = #{eventId,jdbcType=INTEGER},
+      hot_time = #{hotTime,jdbcType=BIGINT},
+      recommend_time = #{recommendTime,jdbcType=BIGINT},
+      hot_state = #{hotState,jdbcType=INTEGER},
+      recommend_state = #{recommendState,jdbcType=INTEGER},
+      recommend_home_status = #{recommendHomeStatus,jdbcType=TINYINT},
+      recommend_financing_state = #{recommendFinancingState,jdbcType=INTEGER},
+      recommend_home_time = #{recommendHomeTime,jdbcType=BIGINT},
+      unrecommend_home_time = #{unrecommendHomeTime,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <insert id="insertByBatchSelective" parameterType="java.util.List">
+    insert into event_city_relation (city_id, event_id, hot_time,
+    recommend_time, hot_state, recommend_state,create_time, modify_time)
+    values
+      <foreach collection="list" item="item" index="index" separator=",">
+        (#{item.cityId,jdbcType=INTEGER},
+        #{item.eventId,jdbcType=TINYINT},
+        #{item.hotTime,jdbcType=BIGINT},
+        #{item.recommendTime,jdbcType=BIGINT},
+        #{item.hotState,jdbcType=INTEGER},
+        #{item.recommendState,jdbcType=INTEGER},
+        #{item.createTime,jdbcType=TIMESTAMP},
+        #{item.modifyTime,jdbcType=TIMESTAMP})
+      </foreach>
+  </insert>
+
+
+</mapper>

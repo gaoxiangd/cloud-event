@@ -1,0 +1,40 @@
+/*云活动报名人员记录表增加unionid字段*/
+use welian_cloud_event;
+ALTER TABLE  `event_record`
+ADD COLUMN `is_import` INT(11) NOT NULL DEFAULT 0 COMMENT '是否是导入的报名记录（0不是 1是）' AFTER `old_record_id`;
+
+
+CREATE TABLE `sms_history` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `org_id` int(11) NOT NULL COMMENT '机构id',
+  `event_ids` varchar(500) NOT NULL COMMENT '活动id（，分割）',
+  `event_titles` varchar(500) NOT NULL COMMENT '活动的名字（,分割）',
+  `push_sms_count` int(10) NOT NULL COMMENT '发送短信条数',
+  `content` varchar(140) NOT NULL COMMENT '内容',
+  `create_time` bigint(20) NOT NULL,
+  `modify_time` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='群发历史';
+
+CREATE TABLE `sms_manage` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `org_id` int(11) NOT NULL COMMENT '机构id',
+  `sms_count` int(10) NOT NULL COMMENT '短信可用条数',
+  `create_time` bigint(20) NOT NULL,
+  `modify_time` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='短信管理';
+
+CREATE TABLE `sms_manage_order` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `org_id` int(11) NOT NULL COMMENT '机构id',
+  `trade_no` varchar(20) NOT NULL COMMENT '订单号',
+  `wallet_trade_no` varchar(20) NOT NULL COMMENT '钱包订单号',
+  `uid` int(11) NOT NULL COMMENT '用户id',
+  `sms_count` int(10) NOT NULL COMMENT '充值条数',
+  `price` int(20) NOT NULL COMMENT '金额',
+  `state` int(2) NOT NULL COMMENT '状态 1-成功 2-失败 3-待支付',
+  `create_time` bigint(20) NOT NULL,
+  `modify_time` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='短信管理充值记录';

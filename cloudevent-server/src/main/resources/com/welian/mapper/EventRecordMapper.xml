@@ -1,0 +1,700 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.welian.mapper.EventRecordMapper">
+  <resultMap id="BaseResultMap" type="com.welian.pojo.EventRecord">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="org_id" jdbcType="INTEGER" property="orgId" />
+    <result column="event_id" jdbcType="INTEGER" property="eventId" />
+    <result column="extension_link_id" jdbcType="INTEGER" property="extensionLinkId" />
+    <result column="sign_up_type" jdbcType="TINYINT" property="signUpType" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="ticket_lock" jdbcType="INTEGER" property="ticketLock" />
+    <result column="source" jdbcType="TINYINT" property="source" />
+    <result column="state" jdbcType="TINYINT" property="state" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="modify_time" jdbcType="BIGINT" property="modifyTime" />
+    <result column="ticket_id" jdbcType="INTEGER" property="ticketId" />
+    <result column="order_number" jdbcType="VARCHAR" property="orderNumber" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="ticket_number" jdbcType="VARCHAR" property="ticketNumber" />
+    <result column="trade_no" jdbcType="VARCHAR" property="tradeNo" />
+    <result column="trade_end_time" jdbcType="BIGINT" property="tradeEndTime" />
+    <result column="ticket_url" jdbcType="VARCHAR" property="ticketUrl" />
+    <result column="old_record_id" jdbcType="INTEGER" property="oldRecordId" />
+    <result column="is_import" jdbcType="INTEGER" property="isImport" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, org_id, event_id, extension_link_id, sign_up_type, uid, ticket_lock, source, 
+    state, create_time, modify_time, ticket_id, order_number, reason, ticket_number, 
+    trade_no, trade_end_time, ticket_url, old_record_id, is_import
+  </sql>
+  <select id="selectByExample" parameterType="com.welian.pojo.EventRecordExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from event_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from event_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from event_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.welian.pojo.EventRecordExample">
+    delete from event_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.welian.pojo.EventRecord" useGeneratedKeys="true">
+    insert into event_record (org_id, event_id, extension_link_id, 
+      sign_up_type, uid, ticket_lock, 
+      source, state, create_time, 
+      modify_time, ticket_id, order_number, 
+      reason, ticket_number, trade_no, 
+      trade_end_time, ticket_url, old_record_id, 
+      is_import)
+    values (#{orgId,jdbcType=INTEGER}, #{eventId,jdbcType=INTEGER}, #{extensionLinkId,jdbcType=INTEGER}, 
+      #{signUpType,jdbcType=TINYINT}, #{uid,jdbcType=INTEGER}, #{ticketLock,jdbcType=INTEGER}, 
+      #{source,jdbcType=TINYINT}, #{state,jdbcType=TINYINT}, #{createTime,jdbcType=BIGINT}, 
+      #{modifyTime,jdbcType=BIGINT}, #{ticketId,jdbcType=INTEGER}, #{orderNumber,jdbcType=VARCHAR}, 
+      #{reason,jdbcType=VARCHAR}, #{ticketNumber,jdbcType=VARCHAR}, #{tradeNo,jdbcType=VARCHAR}, 
+      #{tradeEndTime,jdbcType=BIGINT}, #{ticketUrl,jdbcType=VARCHAR}, #{oldRecordId,jdbcType=INTEGER}, 
+      #{isImport,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.welian.pojo.EventRecord" useGeneratedKeys="true">
+    insert into event_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orgId != null">
+        org_id,
+      </if>
+      <if test="eventId != null">
+        event_id,
+      </if>
+      <if test="extensionLinkId != null">
+        extension_link_id,
+      </if>
+      <if test="signUpType != null">
+        sign_up_type,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="ticketLock != null">
+        ticket_lock,
+      </if>
+      <if test="source != null">
+        source,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="ticketId != null">
+        ticket_id,
+      </if>
+      <if test="orderNumber != null">
+        order_number,
+      </if>
+      <if test="reason != null">
+        reason,
+      </if>
+      <if test="ticketNumber != null">
+        ticket_number,
+      </if>
+      <if test="tradeNo != null">
+        trade_no,
+      </if>
+      <if test="tradeEndTime != null">
+        trade_end_time,
+      </if>
+      <if test="ticketUrl != null">
+        ticket_url,
+      </if>
+      <if test="oldRecordId != null">
+        old_record_id,
+      </if>
+      <if test="isImport != null">
+        is_import,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orgId != null">
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="eventId != null">
+        #{eventId,jdbcType=INTEGER},
+      </if>
+      <if test="extensionLinkId != null">
+        #{extensionLinkId,jdbcType=INTEGER},
+      </if>
+      <if test="signUpType != null">
+        #{signUpType,jdbcType=TINYINT},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="ticketLock != null">
+        #{ticketLock,jdbcType=INTEGER},
+      </if>
+      <if test="source != null">
+        #{source,jdbcType=TINYINT},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=BIGINT},
+      </if>
+      <if test="ticketId != null">
+        #{ticketId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNumber != null">
+        #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="ticketNumber != null">
+        #{ticketNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeNo != null">
+        #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeEndTime != null">
+        #{tradeEndTime,jdbcType=BIGINT},
+      </if>
+      <if test="ticketUrl != null">
+        #{ticketUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="oldRecordId != null">
+        #{oldRecordId,jdbcType=INTEGER},
+      </if>
+      <if test="isImport != null">
+        #{isImport,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertSelective2" keyColumn="id" keyProperty="id" parameterType="com.welian.pojo.EventRecord" useGeneratedKeys="true">
+    insert into event_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orgId != null">
+        org_id,
+      </if>
+      <if test="eventId != null">
+        event_id,
+      </if>
+      <if test="extensionLinkId != null">
+        extension_link_id,
+      </if>
+      <if test="signUpType != null">
+        sign_up_type,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="ticketLock != null">
+        ticket_lock,
+      </if>
+      <if test="source != null">
+        source,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="ticketId != null">
+        ticket_id,
+      </if>
+      <if test="orderNumber != null">
+        order_number,
+      </if>
+      <if test="reason != null">
+        reason,
+      </if>
+      <if test="ticketNumber != null">
+        ticket_number,
+      </if>
+      <if test="tradeNo != null">
+        trade_no,
+      </if>
+      <if test="tradeEndTime != null">
+        trade_end_time,
+      </if>
+      <if test="ticketUrl != null">
+        ticket_url,
+      </if>
+      <if test="oldRecordId != null">
+        old_record_id,
+      </if>
+      <if test="isImport != null">
+        is_import,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="eventId != null">
+        #{eventId,jdbcType=INTEGER},
+      </if>
+      <if test="extensionLinkId != null">
+        #{extensionLinkId,jdbcType=INTEGER},
+      </if>
+      <if test="signUpType != null">
+        #{signUpType,jdbcType=TINYINT},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="ticketLock != null">
+        #{ticketLock,jdbcType=INTEGER},
+      </if>
+      <if test="source != null">
+        #{source,jdbcType=TINYINT},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=BIGINT},
+      </if>
+      <if test="ticketId != null">
+        #{ticketId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNumber != null">
+        #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="ticketNumber != null">
+        #{ticketNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeNo != null">
+        #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeEndTime != null">
+        #{tradeEndTime,jdbcType=BIGINT},
+      </if>
+      <if test="ticketUrl != null">
+        #{ticketUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="oldRecordId != null">
+        #{oldRecordId,jdbcType=INTEGER},
+      </if>
+      <if test="isImport != null">
+        #{isImport,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.welian.pojo.EventRecordExample" resultType="java.lang.Long">
+    select count(*) from event_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update event_record
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.orgId != null">
+        org_id = #{record.orgId,jdbcType=INTEGER},
+      </if>
+      <if test="record.eventId != null">
+        event_id = #{record.eventId,jdbcType=INTEGER},
+      </if>
+      <if test="record.extensionLinkId != null">
+        extension_link_id = #{record.extensionLinkId,jdbcType=INTEGER},
+      </if>
+      <if test="record.signUpType != null">
+        sign_up_type = #{record.signUpType,jdbcType=TINYINT},
+      </if>
+      <if test="record.uid != null">
+        uid = #{record.uid,jdbcType=INTEGER},
+      </if>
+      <if test="record.ticketLock != null">
+        ticket_lock = #{record.ticketLock,jdbcType=INTEGER},
+      </if>
+      <if test="record.source != null">
+        source = #{record.source,jdbcType=TINYINT},
+      </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=TINYINT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.modifyTime != null">
+        modify_time = #{record.modifyTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.ticketId != null">
+        ticket_id = #{record.ticketId,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderNumber != null">
+        order_number = #{record.orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reason != null">
+        reason = #{record.reason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ticketNumber != null">
+        ticket_number = #{record.ticketNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tradeNo != null">
+        trade_no = #{record.tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tradeEndTime != null">
+        trade_end_time = #{record.tradeEndTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.ticketUrl != null">
+        ticket_url = #{record.ticketUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oldRecordId != null">
+        old_record_id = #{record.oldRecordId,jdbcType=INTEGER},
+      </if>
+      <if test="record.isImport != null">
+        is_import = #{record.isImport,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update event_record
+    set id = #{record.id,jdbcType=INTEGER},
+      org_id = #{record.orgId,jdbcType=INTEGER},
+      event_id = #{record.eventId,jdbcType=INTEGER},
+      extension_link_id = #{record.extensionLinkId,jdbcType=INTEGER},
+      sign_up_type = #{record.signUpType,jdbcType=TINYINT},
+      uid = #{record.uid,jdbcType=INTEGER},
+      ticket_lock = #{record.ticketLock,jdbcType=INTEGER},
+      source = #{record.source,jdbcType=TINYINT},
+      state = #{record.state,jdbcType=TINYINT},
+      create_time = #{record.createTime,jdbcType=BIGINT},
+      modify_time = #{record.modifyTime,jdbcType=BIGINT},
+      ticket_id = #{record.ticketId,jdbcType=INTEGER},
+      order_number = #{record.orderNumber,jdbcType=VARCHAR},
+      reason = #{record.reason,jdbcType=VARCHAR},
+      ticket_number = #{record.ticketNumber,jdbcType=VARCHAR},
+      trade_no = #{record.tradeNo,jdbcType=VARCHAR},
+      trade_end_time = #{record.tradeEndTime,jdbcType=BIGINT},
+      ticket_url = #{record.ticketUrl,jdbcType=VARCHAR},
+      old_record_id = #{record.oldRecordId,jdbcType=INTEGER},
+      is_import = #{record.isImport,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.welian.pojo.EventRecord">
+    update event_record
+    <set>
+      <if test="orgId != null">
+        org_id = #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="eventId != null">
+        event_id = #{eventId,jdbcType=INTEGER},
+      </if>
+      <if test="extensionLinkId != null">
+        extension_link_id = #{extensionLinkId,jdbcType=INTEGER},
+      </if>
+      <if test="signUpType != null">
+        sign_up_type = #{signUpType,jdbcType=TINYINT},
+      </if>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="ticketLock != null">
+        ticket_lock = #{ticketLock,jdbcType=INTEGER},
+      </if>
+      <if test="source != null">
+        source = #{source,jdbcType=TINYINT},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=BIGINT},
+      </if>
+      <if test="ticketId != null">
+        ticket_id = #{ticketId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNumber != null">
+        order_number = #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null">
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="ticketNumber != null">
+        ticket_number = #{ticketNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeNo != null">
+        trade_no = #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeEndTime != null">
+        trade_end_time = #{tradeEndTime,jdbcType=BIGINT},
+      </if>
+      <if test="ticketUrl != null">
+        ticket_url = #{ticketUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="oldRecordId != null">
+        old_record_id = #{oldRecordId,jdbcType=INTEGER},
+      </if>
+      <if test="isImport != null">
+        is_import = #{isImport,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.welian.pojo.EventRecord">
+    update event_record
+    set org_id = #{orgId,jdbcType=INTEGER},
+      event_id = #{eventId,jdbcType=INTEGER},
+      extension_link_id = #{extensionLinkId,jdbcType=INTEGER},
+      sign_up_type = #{signUpType,jdbcType=TINYINT},
+      uid = #{uid,jdbcType=INTEGER},
+      ticket_lock = #{ticketLock,jdbcType=INTEGER},
+      source = #{source,jdbcType=TINYINT},
+      state = #{state,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=BIGINT},
+      modify_time = #{modifyTime,jdbcType=BIGINT},
+      ticket_id = #{ticketId,jdbcType=INTEGER},
+      order_number = #{orderNumber,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=VARCHAR},
+      ticket_number = #{ticketNumber,jdbcType=VARCHAR},
+      trade_no = #{tradeNo,jdbcType=VARCHAR},
+      trade_end_time = #{tradeEndTime,jdbcType=BIGINT},
+      ticket_url = #{ticketUrl,jdbcType=VARCHAR},
+      old_record_id = #{oldRecordId,jdbcType=INTEGER},
+      is_import = #{isImport,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="batchUpdate" parameterType="map">
+    update event_record set state = #{state,jdbcType=TINYINT}
+    <if test="reason != null">
+      , reason = #{reason,jdbcType=VARCHAR}
+    </if>
+    where id in ( ${list} )
+  </update>
+
+  <select id="hasSignUpCount" parameterType="map" resultType="java.lang.Integer">
+    select count(1) from event_record_project erp
+    join (select er.id as record_id from event_record er join
+    (select id from extension_link where event_id = #{eventId, jdbcType=INTEGER}) el
+    on el.id = er.extension_link_id and er.sign_up_type = 1  and er.ticket_lock = 0 and er.state in(0,3,5))
+    pp on erp.pid = #{pid, jdbcType=INTEGER}  and pp.record_id = erp.event_record_id
+  </select>
+
+  <select id="getLastRecordInfo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from event_record
+    where org_id = #{orgId,jdbcType=INTEGER} and id &gt; #{recordId,jdbcType=INTEGER} and sign_up_type = 1
+    order by id asc limit 1
+  </select>
+
+  <select id="getNextRecordInfo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from event_record
+    where org_id = #{orgId,jdbcType=INTEGER} and id &lt; #{recordId,jdbcType=INTEGER} and sign_up_type = 1
+    order by id desc limit 1
+  </select>
+  <select id="selectUserSignUpEventRecordList" resultType="com.welian.pojo.EventRecord" resultMap="BaseResultMap">
+    select
+    er.id, er.org_id, er.event_id, er.extension_link_id, er.sign_up_type, er.uid, er.ticket_lock, er.source,
+    er.state, er.create_time, er.modify_time, er.ticket_id, er.order_number, er.reason, er.ticket_number,
+    er.trade_no, er.trade_end_time, er.ticket_url, er.old_record_id, er.is_import
+    from event_record er
+    INNER JOIN event e ON e.id = er.event_id and e.state = 2 and e.open_extension = 1
+    <if test="para.eventType == 1">
+      and e.template_id = 1
+    </if>
+    <if test="para.eventType == 2">
+      and (e.template_id = 2 or e.template_id = 3)
+    </if>
+    and er.uid = #{para.uid,jdbcType=INTEGER}
+    and er.state not in (1,2)
+    order by er.create_time desc
+    limit #{para.page,jdbcType=INTEGER}, #{para.size,jdbcType=INTEGER}
+  </select>
+
+  <select id="existRecord" parameterType="java.lang.Integer" resultType="int">
+    select count(1) from event_record where uid=#{uid} limit 1
+  </select>
+  <select id="selectUserSignUpEventList" resultType="java.lang.Integer">
+    select
+    distinct er.event_id
+    from event_record er
+    INNER JOIN event e ON e.id = er.event_id and e.state = 2 and e.open_extension = 1
+    and er.uid = #{para.uid,jdbcType=INTEGER}
+    and er.ticket_lock = 0
+    and er.state not in (1,2)
+    order by er.create_time desc
+    limit #{para.page,jdbcType=INTEGER}, #{para.size,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectUserSignUpEventRecordAndOrgList" resultType="com.welian.pojo.EventRecord">
+    select
+    er.id, er.org_id, er.event_id, er.extension_link_id, er.sign_up_type, er.uid, er.ticket_lock, er.source,
+    er.state, er.create_time, er.modify_time, er.ticket_id, er.order_number, er.reason, er.ticket_number,
+    er.trade_no, er.trade_end_time, er.ticket_url, er.old_record_id
+    from event_record er , event e
+    where er.event_id = e.id and er.org_id = #{para.orgId,jdbcType=INTEGER}
+    and er.ticket_lock = 0 and er.state = 0 and e.end_time &lt; #{para.nowTime,jdbcType=INTEGER}
+    <if test="para.eventIds != null">
+      and er.event_id in
+      <foreach item="id" index="index" collection="para.eventIds" open="(" separator="," close=")">
+        #{id,jdbcType=INTEGER}
+      </foreach>
+    </if>
+  </select>
+  <select id="selectUserRecordAndOrgList" resultType="java.lang.Integer">
+    select
+    distinct er.uid
+    from event_record er , event_record_user eru
+    where er.id = eru.event_record_id
+    and er.org_id = #{para.orgId,jdbcType=INTEGER}
+    and er.ticket_lock = 0 and er.state = 0
+    <if test="para.phone != null">
+      and eru.phone = #{para.phone,jdbcType=VARCHAR}
+    </if>
+    <if test="para.name != null">
+      and eru.name like #{para.name,jdbcType=VARCHAR}
+    </if>
+    order by er.create_time desc
+    limit #{para.page,jdbcType=INTEGER}, #{para.size,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectUserRecordAndOrgCount" resultType="java.lang.Integer">
+    select distinct er.uid
+    from event_record er, event_record_user eru
+    where er.id = eru.event_record_id
+    and er.org_id = #{para.orgId,jdbcType=INTEGER}
+    and er.ticket_lock = 0 and er.state = 0
+    <if test="para.phone != null">
+      and eru.phone = #{para.phone,jdbcType=VARCHAR}
+    </if>
+    <if test="para.name != null">
+      and eru.name like #{para.name,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+  <select id="selectUserRecord" resultType="com.welian.beans.cloudevent.usermange.UserMangeResp">
+    select
+    er.event_id as eventId , e.title as eventTitle , er.create_time as "time"
+    from event_record er , event e
+    where er.org_id = #{para.orgId,jdbcType=INTEGER} and er.uid = #{para.uid,jdbcType=INTEGER}
+    and er.ticket_lock = 0 and er.state = 0 and er.event_id = e.id
+    order by er.create_time desc
+    limit #{para.page,jdbcType=INTEGER}, #{para.size,jdbcType=INTEGER}
+  </select>
+
+
+</mapper>

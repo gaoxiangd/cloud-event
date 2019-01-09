@@ -1,0 +1,1651 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.welian.mapper.EventMapper">
+  <resultMap id="BaseResultMap" type="com.welian.pojo.Event">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="publish_uid" jdbcType="INTEGER" property="publishUid" />
+    <result column="org_id" jdbcType="INTEGER" property="orgId" />
+    <result column="template_id" jdbcType="INTEGER" property="templateId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="line_type" jdbcType="TINYINT" property="lineType" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="city_id" jdbcType="INTEGER" property="cityId" />
+    <result column="city_name" jdbcType="VARCHAR" property="cityName" />
+    <result column="latitude" jdbcType="DOUBLE" property="latitude" />
+    <result column="longitude" jdbcType="DOUBLE" property="longitude" />
+    <result column="start_time" jdbcType="BIGINT" property="startTime" />
+    <result column="end_time" jdbcType="BIGINT" property="endTime" />
+    <result column="deadline_time" jdbcType="BIGINT" property="deadlineTime" />
+    <result column="logo" jdbcType="VARCHAR" property="logo" />
+    <result column="open_extension" jdbcType="TINYINT" property="openExtension" />
+    <result column="favorite_count" jdbcType="INTEGER" property="favoriteCount" />
+    <result column="state" jdbcType="TINYINT" property="state" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="modify_time" jdbcType="BIGINT" property="modifyTime" />
+    <result column="recommend_status" jdbcType="TINYINT" property="recommendStatus" />
+    <result column="link_url_count" jdbcType="INTEGER" property="linkUrlCount" />
+    <result column="ad_count" jdbcType="INTEGER" property="adCount" />
+    <result column="detail_browse_count" jdbcType="INTEGER" property="detailBrowseCount" />
+    <result column="form_browse_count" jdbcType="INTEGER" property="formBrowseCount" />
+    <result column="commodity_id" jdbcType="INTEGER" property="commodityId" />
+    <result column="old_event_id" jdbcType="INTEGER" property="oldEventId" />
+    <result column="cost_type" jdbcType="TINYINT" property="costType"/>
+    <result column="joined_count" jdbcType="INTEGER" property="joinedCount"/>
+    <result column="coupon_status" jdbcType="INTEGER" property="couponStatus" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.welian.pojo.Event">
+    <result column="detail" jdbcType="LONGVARCHAR" property="detail" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, publish_uid, org_id, template_id, title, line_type, address, city_id, city_name, 
+    latitude, longitude, start_time, end_time, deadline_time, logo, open_extension, favorite_count, 
+    state, create_time, modify_time, recommend_status, link_url_count, ad_count, detail_browse_count, 
+    form_browse_count, commodity_id, old_event_id, coupon_status
+  </sql>
+  <sql id="Blob_Column_List">
+    detail
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.welian.pojo.EventExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from event
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.welian.pojo.EventExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from event
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from event
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from event
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.welian.pojo.EventExample">
+    delete from event
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.welian.pojo.Event" useGeneratedKeys="true">
+    insert into event (publish_uid, org_id, template_id, 
+      title, line_type, address, 
+      city_id, city_name, latitude, 
+      longitude, start_time, end_time, 
+      deadline_time, logo, open_extension, 
+      favorite_count, state, create_time, 
+      modify_time, recommend_status, link_url_count, 
+      ad_count, detail_browse_count, form_browse_count, 
+      commodity_id, old_event_id, coupon_status,
+      detail)
+    values (#{publishUid,jdbcType=INTEGER}, #{orgId,jdbcType=INTEGER}, #{templateId,jdbcType=INTEGER}, 
+      #{title,jdbcType=VARCHAR}, #{lineType,jdbcType=TINYINT}, #{address,jdbcType=VARCHAR}, 
+      #{cityId,jdbcType=INTEGER}, #{cityName,jdbcType=VARCHAR}, #{latitude,jdbcType=DOUBLE}, 
+      #{longitude,jdbcType=DOUBLE}, #{startTime,jdbcType=BIGINT}, #{endTime,jdbcType=BIGINT}, 
+      #{deadlineTime,jdbcType=BIGINT}, #{logo,jdbcType=VARCHAR}, #{openExtension,jdbcType=TINYINT}, 
+      #{favoriteCount,jdbcType=INTEGER}, #{state,jdbcType=TINYINT}, #{createTime,jdbcType=BIGINT}, 
+      #{modifyTime,jdbcType=BIGINT}, #{recommendStatus,jdbcType=TINYINT}, #{linkUrlCount,jdbcType=INTEGER}, 
+      #{adCount,jdbcType=INTEGER}, #{detailBrowseCount,jdbcType=INTEGER}, #{formBrowseCount,jdbcType=INTEGER}, 
+      #{commodityId,jdbcType=INTEGER}, #{oldEventId,jdbcType=INTEGER}, #{couponStatus,jdbcType=INTEGER}, 
+      #{detail,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective2" keyColumn="id" keyProperty="id" parameterType="com.welian.pojo.Event"
+          useGeneratedKeys="true">
+    insert into event
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="publishUid != null">
+        publish_uid,
+      </if>
+      <if test="orgId != null">
+        org_id,
+      </if>
+      <if test="templateId != null">
+        template_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="lineType != null">
+        line_type,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="cityId != null">
+        city_id,
+      </if>
+      <if test="cityName != null">
+        city_name,
+      </if>
+      <if test="latitude != null">
+        latitude,
+      </if>
+      <if test="longitude != null">
+        longitude,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="deadlineTime != null">
+        deadline_time,
+      </if>
+      <if test="logo != null">
+        logo,
+      </if>
+      <if test="openExtension != null">
+        open_extension,
+      </if>
+      <if test="favoriteCount != null">
+        favorite_count,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="recommendStatus != null">
+        recommend_status,
+      </if>
+      <if test="linkUrlCount != null">
+        link_url_count,
+      </if>
+      <if test="adCount != null">
+        ad_count,
+      </if>
+      <if test="detailBrowseCount != null">
+        detail_browse_count,
+      </if>
+      <if test="formBrowseCount != null">
+        form_browse_count,
+      </if>
+      <if test="detail != null">
+        detail,
+      </if>
+      <if test="commodityId != null">
+        commodity_id,
+      </if>
+      <if test="oldEventId != null">
+        old_event_id,
+      </if>
+      <if test="couponStatus != null">
+        coupon_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="publishUid != null">
+        #{publishUid,jdbcType=INTEGER},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="templateId != null">
+        #{templateId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="lineType != null">
+        #{lineType,jdbcType=TINYINT},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null">
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null">
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=BIGINT},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=BIGINT},
+      </if>
+      <if test="deadlineTime != null">
+        #{deadlineTime,jdbcType=BIGINT},
+      </if>
+      <if test="logo != null">
+        #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="openExtension != null">
+        #{openExtension,jdbcType=TINYINT},
+      </if>
+      <if test="favoriteCount != null">
+        #{favoriteCount,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=BIGINT},
+      </if>
+      <if test="recommendStatus != null">
+        #{recommendStatus,jdbcType=TINYINT},
+      </if>
+      <if test="linkUrlCount != null">
+        #{linkUrlCount,jdbcType=INTEGER},
+      </if>
+      <if test="adCount != null">
+        #{adCount,jdbcType=INTEGER},
+      </if>
+      <if test="detailBrowseCount != null">
+        #{detailBrowseCount,jdbcType=INTEGER},
+      </if>
+      <if test="formBrowseCount != null">
+        #{formBrowseCount,jdbcType=INTEGER},
+      </if>
+      <if test="detail != null">
+        #{detail,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="commodityId != null">
+        #{commodityId,jdbcType=INTEGER},
+      </if>
+      <if test="oldEventId != null">
+        #{oldEventId,jdbcType=INTEGER},
+      </if>
+      <if test="couponStatus != null">
+        #{couponStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.welian.pojo.Event" useGeneratedKeys="true">
+    insert into event
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="publishUid != null">
+        publish_uid,
+      </if>
+      <if test="orgId != null">
+        org_id,
+      </if>
+      <if test="templateId != null">
+        template_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="lineType != null">
+        line_type,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="cityId != null">
+        city_id,
+      </if>
+      <if test="cityName != null">
+        city_name,
+      </if>
+      <if test="latitude != null">
+        latitude,
+      </if>
+      <if test="longitude != null">
+        longitude,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="deadlineTime != null">
+        deadline_time,
+      </if>
+      <if test="logo != null">
+        logo,
+      </if>
+      <if test="openExtension != null">
+        open_extension,
+      </if>
+      <if test="favoriteCount != null">
+        favorite_count,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="recommendStatus != null">
+        recommend_status,
+      </if>
+      <if test="linkUrlCount != null">
+        link_url_count,
+      </if>
+      <if test="adCount != null">
+        ad_count,
+      </if>
+      <if test="detailBrowseCount != null">
+        detail_browse_count,
+      </if>
+      <if test="formBrowseCount != null">
+        form_browse_count,
+      </if>
+      <if test="commodityId != null">
+        commodity_id,
+      </if>
+      <if test="oldEventId != null">
+        old_event_id,
+      </if>
+      <if test="couponStatus != null">
+        coupon_status,
+      </if>
+      <if test="detail != null">
+        detail,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="publishUid != null">
+        #{publishUid,jdbcType=INTEGER},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="templateId != null">
+        #{templateId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="lineType != null">
+        #{lineType,jdbcType=TINYINT},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null">
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null">
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=BIGINT},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=BIGINT},
+      </if>
+      <if test="deadlineTime != null">
+        #{deadlineTime,jdbcType=BIGINT},
+      </if>
+      <if test="logo != null">
+        #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="openExtension != null">
+        #{openExtension,jdbcType=TINYINT},
+      </if>
+      <if test="favoriteCount != null">
+        #{favoriteCount,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=BIGINT},
+      </if>
+      <if test="recommendStatus != null">
+        #{recommendStatus,jdbcType=TINYINT},
+      </if>
+      <if test="linkUrlCount != null">
+        #{linkUrlCount,jdbcType=INTEGER},
+      </if>
+      <if test="adCount != null">
+        #{adCount,jdbcType=INTEGER},
+      </if>
+      <if test="detailBrowseCount != null">
+        #{detailBrowseCount,jdbcType=INTEGER},
+      </if>
+      <if test="formBrowseCount != null">
+        #{formBrowseCount,jdbcType=INTEGER},
+      </if>
+      <if test="commodityId != null">
+        #{commodityId,jdbcType=INTEGER},
+      </if>
+      <if test="oldEventId != null">
+        #{oldEventId,jdbcType=INTEGER},
+      </if>
+      <if test="couponStatus != null">
+        #{couponStatus,jdbcType=INTEGER},
+      </if>
+      <if test="detail != null">
+        #{detail,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.welian.pojo.EventExample" resultType="java.lang.Long">
+    select count(*) from event
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update event
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.publishUid != null">
+        publish_uid = #{record.publishUid,jdbcType=INTEGER},
+      </if>
+      <if test="record.orgId != null">
+        org_id = #{record.orgId,jdbcType=INTEGER},
+      </if>
+      <if test="record.templateId != null">
+        template_id = #{record.templateId,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lineType != null">
+        line_type = #{record.lineType,jdbcType=TINYINT},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityId != null">
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cityName != null">
+        city_name = #{record.cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.latitude != null">
+        latitude = #{record.latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="record.longitude != null">
+        longitude = #{record.longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="record.startTime != null">
+        start_time = #{record.startTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.endTime != null">
+        end_time = #{record.endTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.deadlineTime != null">
+        deadline_time = #{record.deadlineTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.logo != null">
+        logo = #{record.logo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.openExtension != null">
+        open_extension = #{record.openExtension,jdbcType=TINYINT},
+      </if>
+      <if test="record.favoriteCount != null">
+        favorite_count = #{record.favoriteCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=TINYINT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.modifyTime != null">
+        modify_time = #{record.modifyTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.recommendStatus != null">
+        recommend_status = #{record.recommendStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.linkUrlCount != null">
+        link_url_count = #{record.linkUrlCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.adCount != null">
+        ad_count = #{record.adCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.detailBrowseCount != null">
+        detail_browse_count = #{record.detailBrowseCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.formBrowseCount != null">
+        form_browse_count = #{record.formBrowseCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.commodityId != null">
+        commodity_id = #{record.commodityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.oldEventId != null">
+        old_event_id = #{record.oldEventId,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponStatus != null">
+        coupon_status = #{record.couponStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.detail != null">
+        detail = #{record.detail,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update event
+    set id = #{record.id,jdbcType=INTEGER},
+      publish_uid = #{record.publishUid,jdbcType=INTEGER},
+      org_id = #{record.orgId,jdbcType=INTEGER},
+      template_id = #{record.templateId,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      line_type = #{record.lineType,jdbcType=TINYINT},
+      address = #{record.address,jdbcType=VARCHAR},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      city_name = #{record.cityName,jdbcType=VARCHAR},
+      latitude = #{record.latitude,jdbcType=DOUBLE},
+      longitude = #{record.longitude,jdbcType=DOUBLE},
+      start_time = #{record.startTime,jdbcType=BIGINT},
+      end_time = #{record.endTime,jdbcType=BIGINT},
+      deadline_time = #{record.deadlineTime,jdbcType=BIGINT},
+      logo = #{record.logo,jdbcType=VARCHAR},
+      open_extension = #{record.openExtension,jdbcType=TINYINT},
+      favorite_count = #{record.favoriteCount,jdbcType=INTEGER},
+      state = #{record.state,jdbcType=TINYINT},
+      create_time = #{record.createTime,jdbcType=BIGINT},
+      modify_time = #{record.modifyTime,jdbcType=BIGINT},
+      recommend_status = #{record.recommendStatus,jdbcType=TINYINT},
+      link_url_count = #{record.linkUrlCount,jdbcType=INTEGER},
+      ad_count = #{record.adCount,jdbcType=INTEGER},
+      detail_browse_count = #{record.detailBrowseCount,jdbcType=INTEGER},
+      form_browse_count = #{record.formBrowseCount,jdbcType=INTEGER},
+      commodity_id = #{record.commodityId,jdbcType=INTEGER},
+      old_event_id = #{record.oldEventId,jdbcType=INTEGER},
+      coupon_status = #{record.couponStatus,jdbcType=INTEGER},
+      detail = #{record.detail,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update event
+    set id = #{record.id,jdbcType=INTEGER},
+      publish_uid = #{record.publishUid,jdbcType=INTEGER},
+      org_id = #{record.orgId,jdbcType=INTEGER},
+      template_id = #{record.templateId,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      line_type = #{record.lineType,jdbcType=TINYINT},
+      address = #{record.address,jdbcType=VARCHAR},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      city_name = #{record.cityName,jdbcType=VARCHAR},
+      latitude = #{record.latitude,jdbcType=DOUBLE},
+      longitude = #{record.longitude,jdbcType=DOUBLE},
+      start_time = #{record.startTime,jdbcType=BIGINT},
+      end_time = #{record.endTime,jdbcType=BIGINT},
+      deadline_time = #{record.deadlineTime,jdbcType=BIGINT},
+      logo = #{record.logo,jdbcType=VARCHAR},
+      open_extension = #{record.openExtension,jdbcType=TINYINT},
+      favorite_count = #{record.favoriteCount,jdbcType=INTEGER},
+      state = #{record.state,jdbcType=TINYINT},
+      create_time = #{record.createTime,jdbcType=BIGINT},
+      modify_time = #{record.modifyTime,jdbcType=BIGINT},
+      recommend_status = #{record.recommendStatus,jdbcType=TINYINT},
+      link_url_count = #{record.linkUrlCount,jdbcType=INTEGER},
+      ad_count = #{record.adCount,jdbcType=INTEGER},
+      detail_browse_count = #{record.detailBrowseCount,jdbcType=INTEGER},
+      form_browse_count = #{record.formBrowseCount,jdbcType=INTEGER},
+      commodity_id = #{record.commodityId,jdbcType=INTEGER},
+      old_event_id = #{record.oldEventId,jdbcType=INTEGER},
+      coupon_status = #{record.couponStatus,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.welian.pojo.Event">
+    update event
+    <set>
+      <if test="publishUid != null">
+        publish_uid = #{publishUid,jdbcType=INTEGER},
+      </if>
+      <if test="orgId != null">
+        org_id = #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="templateId != null">
+        template_id = #{templateId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="lineType != null">
+        line_type = #{lineType,jdbcType=TINYINT},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null">
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null">
+        city_name = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        latitude = #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="longitude != null">
+        longitude = #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=BIGINT},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=BIGINT},
+      </if>
+      <if test="deadlineTime != null">
+        deadline_time = #{deadlineTime,jdbcType=BIGINT},
+      </if>
+      <if test="logo != null">
+        logo = #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="openExtension != null">
+        open_extension = #{openExtension,jdbcType=TINYINT},
+      </if>
+      <if test="favoriteCount != null">
+        favorite_count = #{favoriteCount,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=BIGINT},
+      </if>
+      <if test="recommendStatus != null">
+        recommend_status = #{recommendStatus,jdbcType=TINYINT},
+      </if>
+      <if test="linkUrlCount != null">
+        link_url_count = #{linkUrlCount,jdbcType=INTEGER},
+      </if>
+      <if test="adCount != null">
+        ad_count = #{adCount,jdbcType=INTEGER},
+      </if>
+      <if test="detailBrowseCount != null">
+        detail_browse_count = #{detailBrowseCount,jdbcType=INTEGER},
+      </if>
+      <if test="formBrowseCount != null">
+        form_browse_count = #{formBrowseCount,jdbcType=INTEGER},
+      </if>
+      <if test="commodityId != null">
+        commodity_id = #{commodityId,jdbcType=INTEGER},
+      </if>
+      <if test="oldEventId != null">
+        old_event_id = #{oldEventId,jdbcType=INTEGER},
+      </if>
+      <if test="couponStatus != null">
+        coupon_status = #{couponStatus,jdbcType=INTEGER},
+      </if>
+      <if test="detail != null">
+        detail = #{detail,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.welian.pojo.Event">
+    update event
+    set publish_uid = #{publishUid,jdbcType=INTEGER},
+      org_id = #{orgId,jdbcType=INTEGER},
+      template_id = #{templateId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      line_type = #{lineType,jdbcType=TINYINT},
+      address = #{address,jdbcType=VARCHAR},
+      city_id = #{cityId,jdbcType=INTEGER},
+      city_name = #{cityName,jdbcType=VARCHAR},
+      latitude = #{latitude,jdbcType=DOUBLE},
+      longitude = #{longitude,jdbcType=DOUBLE},
+      start_time = #{startTime,jdbcType=BIGINT},
+      end_time = #{endTime,jdbcType=BIGINT},
+      deadline_time = #{deadlineTime,jdbcType=BIGINT},
+      logo = #{logo,jdbcType=VARCHAR},
+      open_extension = #{openExtension,jdbcType=TINYINT},
+      favorite_count = #{favoriteCount,jdbcType=INTEGER},
+      state = #{state,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=BIGINT},
+      modify_time = #{modifyTime,jdbcType=BIGINT},
+      recommend_status = #{recommendStatus,jdbcType=TINYINT},
+      link_url_count = #{linkUrlCount,jdbcType=INTEGER},
+      ad_count = #{adCount,jdbcType=INTEGER},
+      detail_browse_count = #{detailBrowseCount,jdbcType=INTEGER},
+      form_browse_count = #{formBrowseCount,jdbcType=INTEGER},
+      commodity_id = #{commodityId,jdbcType=INTEGER},
+      old_event_id = #{oldEventId,jdbcType=INTEGER},
+      coupon_status = #{couponStatus,jdbcType=INTEGER},
+      detail = #{detail,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.welian.pojo.Event">
+    update event
+    set publish_uid = #{publishUid,jdbcType=INTEGER},
+      org_id = #{orgId,jdbcType=INTEGER},
+      template_id = #{templateId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      line_type = #{lineType,jdbcType=TINYINT},
+      address = #{address,jdbcType=VARCHAR},
+      city_id = #{cityId,jdbcType=INTEGER},
+      city_name = #{cityName,jdbcType=VARCHAR},
+      latitude = #{latitude,jdbcType=DOUBLE},
+      longitude = #{longitude,jdbcType=DOUBLE},
+      start_time = #{startTime,jdbcType=BIGINT},
+      end_time = #{endTime,jdbcType=BIGINT},
+      deadline_time = #{deadlineTime,jdbcType=BIGINT},
+      logo = #{logo,jdbcType=VARCHAR},
+      open_extension = #{openExtension,jdbcType=TINYINT},
+      favorite_count = #{favoriteCount,jdbcType=INTEGER},
+      state = #{state,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=BIGINT},
+      modify_time = #{modifyTime,jdbcType=BIGINT},
+      recommend_status = #{recommendStatus,jdbcType=TINYINT},
+      link_url_count = #{linkUrlCount,jdbcType=INTEGER},
+      ad_count = #{adCount,jdbcType=INTEGER},
+      detail_browse_count = #{detailBrowseCount,jdbcType=INTEGER},
+      form_browse_count = #{formBrowseCount,jdbcType=INTEGER},
+      commodity_id = #{commodityId,jdbcType=INTEGER},
+      old_event_id = #{oldEventId,jdbcType=INTEGER},
+      coupon_status = #{couponStatus,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectEventByPara" parameterType="map" resultMap="BaseResultMap">
+        select * from (select * from
+        (
+        select event.id,case when event.end_time &lt; unix_timestamp(now())*1000 and event.state = 2 then 3 else
+        event.state end as
+        state,event.publish_uid,event.template_id,event.logo,event.title,event.address,event.line_type,event.old_event_id,
+        event.city_id,event.city_name,event.favorite_count,event.recommend_status,event.start_time,event.end_time,p.cost_type,p.joined_count
+        from event join event_state_project p on event.id = p.event_id
+        where event.org_id = #{para.orgId,jdbcType=INTEGER}
+        <if test="para.keyword != null and para.keyword != '' ">
+            and event.title like CONCAT(CONCAT('%', #{para.keyword,jdbcType=VARCHAR}), '%')
+        </if>
+        <if test="para.parameter != null and para.parameter.type != null and para.parameter.type == 1 ">
+            and event.template_id = #{para.parameter.type,jdbcType=INTEGER}
+        </if>
+        <if test="para.parameter != null and para.parameter.type != null and para.parameter.type == 2 ">
+            and event.template_id in (2,3)
+        </if>
+        <if test="para.parameter != null and para.parameter.isFree != null">
+            and p.cost_type = #{para.parameter.isFree,jdbcType=TINYINT}
+        </if>
+        )data
+        UNION
+        select * from
+        (
+        select event.id,case when event.end_time &lt; unix_timestamp(now())*1000 and event.state = 2 then 3 else
+        event.state end as
+        state,event.publish_uid,event.template_id,event.logo,event.title,event.address,event.line_type,event.old_event_id,
+        event.city_id,event.city_name,event.favorite_count,event.recommend_status,event.start_time,event.end_time,c.cost_type,c.joined_count
+        from event join event_state_custom c on event.id = c.event_id
+        where event.org_id = #{para.orgId,jdbcType=INTEGER}
+        <if test="para.keyword != null and para.keyword != '' ">
+            and event.title like CONCAT(CONCAT('%', #{para.keyword,jdbcType=VARCHAR}), '%')
+        </if>
+        <if test="para.parameter != null and para.parameter.type != null and para.parameter.type == 1 ">
+            and event.template_id = #{para.parameter.type,jdbcType=INTEGER}
+        </if>
+        <if test="para.parameter != null and para.parameter.type != null and para.parameter.type == 2 ">
+            and event.template_id in (2,3)
+        </if>
+        <if test="para.parameter != null and para.parameter.isFree != null">
+            and p.cost_type = #{para.parameter.isFree,jdbcType=TINYINT}
+        </if>
+        )data) alldata
+        where 1 = 1
+        <choose>
+          <when test="para.parameter != null and para.parameter.state != null">
+            and state = #{para.parameter.state,jdbcType=TINYINT}
+          </when>
+          <otherwise>
+            and state not in (4)
+          </otherwise>
+       </choose>
+        order by id desc
+        limit #{para.page,jdbcType=INTEGER}, #{para.size,jdbcType=INTEGER}
+    </select>
+
+    <select id="countEventList" parameterType="map" resultType="java.lang.Integer">
+        select count(*) from
+        (
+        select event.id,case when event.end_time &lt; unix_timestamp(now())*1000 and event.state = 2 then 3 else
+        event.state end as state
+        from event
+        where event.org_id = #{para.orgId,jdbcType=INTEGER}
+        <if test="para.keyword != null and para.keyword != '' ">
+            and event.title like CONCAT(CONCAT('%', #{para.keyword,jdbcType=VARCHAR}), '%')
+        </if>
+        <if test="para.parameter != null and para.parameter.type != null and para.parameter.type == 1 ">
+            and event.template_id = #{para.parameter.type,jdbcType=INTEGER}
+        </if>
+        <if test="para.parameter != null and para.parameter.type != null and para.parameter.type == 2 ">
+            and event.template_id in (2,3)
+        </if>
+        <if test="para.parameter != null and para.parameter.isFree != null">
+            and p.cost_type = #{para.parameter.isFree,jdbcType=TINYINT}
+        </if>
+        )data
+        where 1 = 1
+        <if test="para.parameter != null and para.parameter.state != null">
+            and state = #{para.parameter.state,jdbcType=TINYINT}
+        </if>
+        <if test="(para.parameter != null and para.parameter.state == null) or para.parameter == null">
+            and state not in (4)
+        </if>
+
+    </select>
+
+    <!-- 查询系统中所有创建过活动的城市id列表 -->
+    <select id="selectEventCityIdList" resultType="java.lang.Integer">
+    select city_id
+    from (
+    select city_id , count(city_id) c
+    from event
+    WHERE event.id in (select event_id from event_city_relation where recommend_state = 1 group by event_id )
+    and event.city_id not in (131,289,179,257,340,75,218) and event.state = 2
+    group by city_id
+    ) city
+    order by c
+  </select>
+
+    <select id="selectUserCollectionEventList" resultMap="BaseResultMap">
+        select
+        e.id, e.publish_uid, e.org_id, e.template_id, e.title, e.line_type, e.address, e.city_id, e.city_name,
+        e.latitude, e.longitude, e.start_time, e.end_time, e.deadline_time, e.logo, e.open_extension, e.favorite_count,
+        e.state, e.create_time, e.modify_time, e.recommend_status, e.link_url_count, e.ad_count, e.detail_browse_count,
+        e.form_browse_count,e.commodity_id
+        from event e
+        INNER JOIN event_uid_favorite_relation euf ON euf.event_id = e.id and euf.uid = #{para.uid,jdbcType=INTEGER}
+        <if test="para.eventType == 1">
+            and e.template_id = 1
+        </if>
+        <if test="para.eventType == 2">
+            and (e.template_id = 2 or e.template_id = 3)
+        </if>
+        and e.state = 2
+        order by euf.create_time desc
+        limit #{para.page,jdbcType=INTEGER}, #{para.size,jdbcType=INTEGER}
+    </select>
+    <select id="selectUserCreateEventList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from event
+        where publish_uid = #{para.uid,jdbcType=INTEGER}
+        <if test="para.eventType == 1">
+            and event.template_id = 1
+        </if>
+        <if test="para.eventType == 2">
+            and (event.template_id = 2 or event.template_id = 3)
+        </if>
+        and event.state = 2
+        order by event.create_time desc
+        limit #{para.page,jdbcType=INTEGER}, #{para.size,jdbcType=INTEGER}
+    </select>
+    <select id="selectOrderedeCommendList" resultType="com.welian.pojo.Event" resultMap="BaseResultMap">
+        SELECT rr.rownum,e.id, e.publish_uid, e.org_id, e.template_id, e.title, e.line_type, e.address, e.city_id, e.city_name,
+        e.latitude, e.longitude, e.start_time, e.end_time, e.deadline_time, e.logo, e.open_extension, e.favorite_count,
+        e.state, e.create_time, e.modify_time, e.recommend_status, e.link_url_count, e.ad_count, e.detail_browse_count,
+        e.form_browse_count,e.commodity_id
+        from (
+        select @rownum:=@rownum+1 rownum,r.* from (
+        (
+        select * from(
+        select event.id ,1 as sort from event event
+        inner JOIN event_city_relation ecr on event.id = ecr.event_id
+        and ecr.recommend_state = 1 and ecr.hot_state = 1
+        and event.deadline_time &gt; #{para.nowTime,jdbcType=BIGINT}
+        <if test="para.cityId != -100001 and para.cityId != -100002">
+            and (ecr.city_id = #{para.cityId,jdbcType=INTEGER} or ecr.city_id = -2)
+        </if>
+        <if test="para.cityId == -100001">
+            and ( ecr.city_id = event.city_id or ecr.city_id = -2)
+        </if>
+        order by event.start_time asc
+        )one
+        )
+        UNION
+        (
+        select * from(
+        select event.id ,2 as sort from event event
+        inner JOIN event_city_relation ecr on event.id = ecr.event_id
+        and ecr.recommend_state = 1 and ecr.hot_state = 0
+        and event.deadline_time &gt; #{para.nowTime,jdbcType=BIGINT}
+        <if test="para.cityId != -100001 and para.cityId != -100002">
+            and (ecr.city_id = #{para.cityId,jdbcType=INTEGER} or ecr.city_id = -2)
+        </if>
+        <if test="para.cityId == -100001">
+            and (ecr.city_id = event.city_id or ecr.city_id = -2)
+        </if>
+        order by event.start_time asc
+        )two
+        )
+        UNION
+        (
+        select * from(
+        select id ,3 as sort from event
+        WHERE event.id in
+        (select event_id from event_city_relation where recommend_state = 1
+        <if test="para.cityId != -100001 and para.cityId != -100002">
+            and (city_id = #{para.cityId,jdbcType=INTEGER} or city_id = -2)
+        </if>
+        group by event_id
+        )
+        and deadline_time &lt;= #{para.nowTime,jdbcType=BIGINT} and end_time &gt;= #{para.nowTime,jdbcType=BIGINT}
+        order by event.start_time asc
+        )three
+        )
+        UNION
+        (
+        select * from(
+        select id ,4 as sort from event
+        WHERE event.id in
+        (select event_id from event_city_relation where recommend_state = 1
+        <if test="para.cityId != -100001 and para.cityId != -100002">
+            and city_id = #{para.cityId,jdbcType=INTEGER}
+        </if>
+        group by event_id
+        )
+        and end_time &lt; #{para.nowTime,jdbcType=BIGINT}
+        order by event.start_time desc
+        )four
+        )
+        )r , (SELECT @rownum:=0) row
+        )rr , event e
+        where
+        rr.id=e.id
+        <if test="para.eventType == 1">
+            and e.template_id=1
+        </if>
+        <if test="para.eventType == 2">
+            and e.template_id in(2,3)
+        </if>
+        and e.state = 2
+        and e.open_extension = 1
+        <if test="para.cityId == -100002">
+            and e.line_type = 1
+        </if>
+        order by rr.rownum
+        limit #{para.page,jdbcType=INTEGER}, #{para.size,jdbcType=INTEGER}
+    </select>
+    <select id="selectOrderedeHotList" resultType="com.welian.pojo.Event" resultMap="BaseResultMap">
+        SELECT e.id, e.publish_uid, e.org_id, e.template_id, e.title, e.line_type, e.address, e.city_id, e.city_name,
+        e.latitude, e.longitude, e.start_time, e.end_time, e.deadline_time, e.logo, e.open_extension, e.favorite_count,
+        e.state, e.create_time, e.modify_time, e.recommend_status, e.link_url_count, e.ad_count, e.detail_browse_count,
+        e.form_browse_count,e.commodity_id
+        from (
+        (
+        select event.id , 1 as sort from event event
+        inner JOIN event_city_relation ecr on event.id = ecr.event_id
+        and ecr.recommend_state = 1 and ecr.hot_state = 1
+        and event.deadline_time &gt; #{para.nowTime,jdbcType=BIGINT}
+        <if test="para.cityId != -100001 and para.cityId != -100002">
+            and (ecr.city_id = #{para.cityId,jdbcType=INTEGER} or ecr.city_id = -2)
+        </if>
+        <if test="para.cityId == -100001">
+            and (ecr.city_id = event.city_id or ecr.city_id = -2)
+        </if>
+        )
+        UNION
+        (
+        select event.id ,2 as sort from event event
+        inner JOIN event_city_relation ecr on event.id = ecr.event_id
+        and ecr.recommend_state = 1 and ecr.hot_state = 0
+        and event.deadline_time &gt; #{para.nowTime,jdbcType=BIGINT}
+        <if test="para.cityId != -100001 and para.cityId != -100002">
+            and (ecr.city_id = #{para.cityId,jdbcType=INTEGER} or ecr.city_id = -2)
+        </if>
+        <if test="para.cityId == -100001">
+            and (ecr.city_id = event.city_id or ecr.city_id = -2)
+        </if>
+        )
+        UNION
+        (
+        select id ,3 as sort from event
+        WHERE event.id in
+        (select event_id from event_city_relation where recommend_state = 1
+        <if test="para.cityId != -100001 and para.cityId != -100002">
+            and (city_id = #{para.cityId,jdbcType=INTEGER} or city_id = -2)
+        </if>
+        group by event_id
+        )
+        and deadline_time &lt;= #{para.nowTime,jdbcType=BIGINT} and end_time &gt;= #{para.nowTime,jdbcType=BIGINT}
+        )
+        UNION
+        (
+        select id ,4 as sort from event
+        WHERE event.id in
+        (select event_id from event_city_relation where recommend_state = 1
+        <if test="para.cityId != -100001 and para.cityId != -100002">
+            and (city_id = #{para.cityId,jdbcType=INTEGER} or city_id = -2)
+        </if>
+        group by event_id
+        )
+        and end_time &lt; #{para.nowTime,jdbcType=BIGINT}
+        )
+        )rr , event e ,
+        <if test="para.eventType == 1">
+            event_state_custom
+        </if>
+        <if test="para.eventType == 2">
+            event_state_project
+        </if>
+        esp
+        where
+        rr.id=e.id and rr.id=esp.event_id
+        <if test="para.eventType == 1">
+            and e.template_id=1
+        </if>
+        <if test="para.eventType == 2">
+            and e.template_id in(2,3)
+        </if>
+        and e.state = 2
+        and e.open_extension = 1
+        <if test="para.cityId == -100002">
+            and e.line_type = 1
+        </if>
+        ORDER BY rr.sort asc , esp.joined_count desc
+        limit #{para.page,jdbcType=INTEGER}, #{para.size,jdbcType=INTEGER}
+    </select>
+    <select id="selectOrderedeNewList" resultType="com.welian.pojo.Event" resultMap="BaseResultMap">
+        SELECT e.id, e.publish_uid, e.org_id, e.template_id, e.title, e.line_type, e.address, e.city_id, e.city_name,
+        e.latitude, e.longitude, e.start_time, e.end_time, e.deadline_time, e.logo, e.open_extension, e.favorite_count,
+        e.state, e.create_time, e.modify_time, e.recommend_status, e.link_url_count, e.ad_count, e.detail_browse_count,
+        e.form_browse_count,e.commodity_id
+        from (
+        (
+        select event.id ,1 as sort from event event
+        inner JOIN event_city_relation ecr on event.id = ecr.event_id
+        and ecr.recommend_state = 1 and ecr.hot_state = 1
+        and event.deadline_time &gt; #{para.nowTime,jdbcType=BIGINT}
+        <if test="para.cityId != -100001 and para.cityId != -100002">
+            and (ecr.city_id = #{para.cityId,jdbcType=INTEGER} or ecr.city_id = -2)
+        </if>
+        <if test="para.cityId == -100001">
+            and (ecr.city_id = event.city_id or ecr.city_id = -2)
+        </if>
+        )
+        UNION
+        (
+        select event.id ,2 as sort from event event
+        inner JOIN event_city_relation ecr on event.id = ecr.event_id
+        and ecr.recommend_state = 1 and ecr.hot_state = 0
+        and event.deadline_time &gt; #{para.nowTime,jdbcType=BIGINT}
+        <if test="para.cityId != -100001 and para.cityId != -100002">
+            and (ecr.city_id = #{para.cityId,jdbcType=INTEGER} or ecr.city_id = -2)
+        </if>
+        <if test="para.cityId == -100001">
+            and (ecr.city_id = event.city_id or ecr.city_id = -2)
+        </if>
+        )
+        UNION
+        (select id ,3 as sort from event
+        WHERE event.id in
+        (select event_id from event_city_relation where recommend_state = 1
+        <if test="para.cityId != -100001 and para.cityId != -100002">
+            and (city_id = #{para.cityId,jdbcType=INTEGER} or city_id = -2)
+        </if>
+        group by event_id
+        )
+        and deadline_time &lt;= #{para.nowTime,jdbcType=BIGINT} and end_time &gt;= #{para.nowTime,jdbcType=BIGINT})
+        UNION
+        (select id , 4 as sort from event
+        WHERE event.id in
+        (select event_id from event_city_relation where recommend_state = 1
+        <if test="para.cityId != -100001 and para.cityId != -100002">
+            and (city_id = #{para.cityId,jdbcType=INTEGER} or city_id = -2)
+        </if>
+        group by event_id
+        )
+        and end_time &lt; #{para.nowTime,jdbcType=BIGINT}
+        )
+        )rr , event e ,event_city_relation ecr1
+        where
+        rr.id=e.id and rr.id=ecr1.event_id
+        <if test="para.eventType == 1">
+            and e.template_id=1
+        </if>
+        <if test="para.eventType == 2">
+            and e.template_id in(2,3)
+        </if>
+        and e.state = 2
+        and e.open_extension = 1
+        <if test="para.cityId != -100001 and para.cityId != -100002">
+            and (ecr1.city_id = #{para.cityId,jdbcType=INTEGER} or ecr1.city_id = -2)
+        </if>
+        <if test="para.cityId == -100001">
+            and (ecr1.city_id = e.city_id or ecr1.city_id = -2)
+        </if>
+        <if test="para.cityId == -100002">
+            and e.line_type = 1
+        </if>
+        ORDER BY rr.sort asc , ecr1.recommend_time desc
+        limit #{para.page,jdbcType=INTEGER}, #{para.size,jdbcType=INTEGER}
+    </select>
+    <select id="selectEndEvent" resultType="com.welian.pojo.Event" resultMap="BaseResultMap">
+        select
+        e.id, e.publish_uid, e.org_id, e.template_id, e.title, e.line_type, e.address, e.city_id, e.city_name,
+        e.latitude, e.longitude, e.start_time, e.end_time, e.deadline_time, e.logo, e.open_extension, e.favorite_count,
+        e.state, e.create_time, e.modify_time, e.recommend_status, e.link_url_count, e.ad_count, e.detail_browse_count,
+        e.form_browse_count,e.commodity_id
+        from event e
+        inner JOIN event_state_custom esc on e.id = esc.event_id
+        where e.org_id = #{orgId,jdbcType=INTEGER} and e.end_time &lt; #{nowTime}
+        and e.state = 2 and e.template_id = 1 and esc.cost_type = 1 and e.old_event_id = 0
+        ORDER BY e.id desc
+    </select>
+    <select id="selectCommonEventList" resultType="com.welian.pojo.Event" resultMap="BaseResultMap">
+        SELECT rr.rownum,e.id, e.publish_uid, e.org_id, e.template_id, e.title, e.line_type, e.address, e.city_id, e.city_name,
+        e.latitude, e.longitude, e.start_time, e.end_time, e.deadline_time, e.logo, e.open_extension, e.favorite_count,
+        e.state, e.create_time, e.modify_time, e.recommend_status, e.link_url_count, e.ad_count, e.detail_browse_count,
+        e.form_browse_count,e.commodity_id,rr.sort
+        from (
+        select @rownum:=@rownum+1 rownum,r.* from (
+        (
+        select * from(
+        select event.id , 1 as sort from event event
+        inner JOIN event_city_relation ecr on event.id = ecr.event_id inner join event_state_custom esc on
+        event.id=esc.event_id
+        and ecr.recommend_state = 1 and ecr.hot_state = 1 and event.deadline_time &gt; #{para.nowTime,jdbcType=BIGINT}
+        <if test="para.costType == 0 or para.costType == 1">
+            and esc.cost_type = #{para.costType,jdbcType=INTEGER}
+        </if>
+        <if test="para.date != null">
+            and event.start_time &gt;= #{para.startTime,jdbcType=BIGINT} and event.start_time &lt;
+            #{para.endTime,jdbcType=BIGINT}
+        </if>
+        <if test="para.cityId != 0">
+            and (ecr.city_id = #{para.cityId,jdbcType=INTEGER} or ecr.city_id = -2)
+        </if>
+        <if test="para.cityId == 0">
+            and (ecr.city_id = event.city_id or ecr.city_id = -2)
+        </if>
+        order by event.start_time asc
+        )one
+        )
+        UNION
+        (
+        select * from(
+        select event.id ,2 as sort from event event
+        inner JOIN event_city_relation ecr on event.id = ecr.event_id inner join event_state_custom esc on
+        event.id=esc.event_id
+        and ecr.recommend_state = 1 and ecr.hot_state = 0
+        and event.deadline_time &gt; #{para.nowTime,jdbcType=BIGINT}
+        <if test="para.costType == 0 or para.costType == 1">
+            and esc.cost_type = #{para.costType,jdbcType=INTEGER}
+        </if>
+        <if test="para.date != null">
+            and event.start_time &gt;= #{para.startTime,jdbcType=BIGINT} and event.start_time &lt;
+            #{para.endTime,jdbcType=BIGINT}
+        </if>
+        <if test="para.cityId != 0">
+            and (ecr.city_id = #{para.cityId,jdbcType=INTEGER} or ecr.city_id = -2)
+        </if>
+        <if test="para.cityId == 0">
+            and (ecr.city_id = event.city_id or ecr.city_id = -2)
+        </if>
+        order by event.start_time asc
+        )two
+        )
+        UNION
+        (
+        select * from(
+        select event.id ,3 as sort from event inner join event_state_custom esc on event.id=esc.event_id
+        <if test="para.costType == 0 or para.costType == 1">
+            and esc.cost_type = #{para.costType,jdbcType=INTEGER}
+        </if>
+        <if test="para.date != null">
+            and event.start_time &gt;= #{para.startTime,jdbcType=BIGINT} and event.start_time &lt;
+            #{para.endTime,jdbcType=BIGINT}
+        </if>
+        WHERE event.id in
+        (select event_id from event_city_relation ecr where recommend_state = 1
+        <if test="para.cityId != 0">
+            and (ecr.city_id = #{para.cityId,jdbcType=INTEGER} or ecr.city_id = -2)
+        </if>
+        group by event_id
+        )
+        and deadline_time &lt;= #{para.nowTime,jdbcType=BIGINT} and end_time &gt;= #{para.nowTime,jdbcType=BIGINT}
+        order by event.start_time asc
+        )three
+        )
+        UNION
+        (
+        select * from(
+        select event.id ,4 as sort from event inner join event_state_custom esc on event.id=esc.event_id
+        <if test="para.costType == 0 or para.costType == 1">
+            and esc.cost_type = #{para.costType,jdbcType=INTEGER}
+        </if>
+        <if test="para.date != null">
+            and event.start_time  &gt;=  #{para.startTime,jdbcType=BIGINT} and event.start_time &lt; #{para.endTime,jdbcType=BIGINT}
+        </if>
+        WHERE event.id in
+        (select event_id from event_city_relation ecr where recommend_state = 1
+        <if test="para.cityId != 0">
+            and (ecr.city_id = #{para.cityId,jdbcType=INTEGER} or ecr.city_id = -2)
+        </if>
+        group by event_id
+        )
+        and end_time &lt; #{para.nowTime,jdbcType=BIGINT}
+        order by event.start_time DESC
+        )four
+        )
+        )r , (SELECT @rownum:=0) row
+        )rr , event e , event_state_custom esp
+        where
+        rr.id=e.id and rr.id=esp.event_id
+        and e.template_id=1
+        and e.state = 2
+        and e.open_extension = 1
+        order by rr.rownum
+        limit #{para.page,jdbcType=INTEGER}, #{para.size,jdbcType=INTEGER}
+    </select>
+    <select id="selectSignupEvent" resultType="com.welian.beans.cloudevent.usermange.UserMangeResp">
+        select
+        e.id as "eventId" , e.title as "eventTitle" , count(*) as "recordNum"
+        from event e , event_record er
+        where e.id = er.event_id and e.end_time &lt; #{nowTime}
+        and e.org_id = #{orgId,jdbcType=INTEGER} and er.ticket_lock = 0 and er.state = 0
+        GROUP BY e.id
+    </select>
+  <select id="selectEventMiniList" resultType="com.welian.pojo.Event" resultMap="BaseResultMap">
+    SELECT rr.rownum,e.id, e.publish_uid, e.org_id, e.template_id, e.title, e.line_type, e.address, e.city_id, e.city_name,
+    e.latitude, e.longitude, e.start_time, e.end_time, e.deadline_time, e.logo, e.open_extension, e.favorite_count,
+    e.state, e.create_time, e.modify_time, e.recommend_status, e.link_url_count, e.ad_count, e.detail_browse_count,
+    e.form_browse_count,e.commodity_id,rr.sort
+    from (
+    select @rownum:=@rownum+1 rownum,r.* from (
+    (
+    select * from(
+    select event.id , 1 as sort from event event
+    inner JOIN event_city_relation ecr on event.id = ecr.event_id
+    and ecr.recommend_state = 1 and ecr.hot_state = 1 and event.deadline_time &gt; #{para.nowTime,jdbcType=BIGINT}
+    <if test="para.date != null">
+      and event.start_time &gt;= #{para.startTime,jdbcType=BIGINT} and event.start_time &lt; #{para.endTime,jdbcType=BIGINT}
+    </if>
+    <if test="para.cityId != -100001 and para.cityId != -100002">
+      and (ecr.city_id = #{para.cityId,jdbcType=INTEGER} or ecr.city_id = -2)
+    </if>
+    <if test="para.cityId == -100001">
+      and (ecr.city_id = event.city_id or ecr.city_id = -2)
+    </if>
+    <if test="para.eventType == 1">
+      and event.template_id = 1
+    </if>
+    <if test="para.eventType == 2">
+      and (event.template_id = 2 or event.template_id = 3)
+    </if>
+    order by event.start_time asc
+    )one
+    )
+    UNION
+    (
+    select * from(
+    select event.id ,2 as sort from event event
+    inner JOIN event_city_relation ecr on event.id = ecr.event_id
+    and ecr.recommend_state = 1 and ecr.hot_state = 0
+    and event.deadline_time &gt; #{para.nowTime,jdbcType=BIGINT}
+    <if test="para.date != null">
+      and event.start_time &gt;= #{para.startTime,jdbcType=BIGINT} and event.start_time &lt; #{para.endTime,jdbcType=BIGINT}
+    </if>
+    <if test="para.cityId != -100001 and para.cityId != -100002">
+      and (ecr.city_id = #{para.cityId,jdbcType=INTEGER} or ecr.city_id = -2)
+    </if>
+    <if test="para.cityId == -100001">
+      and (ecr.city_id = event.city_id or ecr.city_id = -2)
+    </if>
+    <if test="para.eventType == 1">
+      and event.template_id = 1
+    </if>
+    <if test="para.eventType == 2">
+      and (event.template_id = 2 or event.template_id = 3)
+    </if>
+    order by event.start_time asc
+    )two
+    )
+    UNION
+    (
+    select * from(
+    select event.id ,3 as sort from event
+    WHERE event.id in
+    (select event_id from event_city_relation ecr where recommend_state = 1
+    <if test="para.cityId != -100001 and para.cityId != -100002">
+      and (city_id = #{para.cityId,jdbcType=INTEGER} or city_id = -2)
+    </if>
+    group by event_id
+    )
+    and deadline_time &lt;= #{para.nowTime,jdbcType=BIGINT} and end_time &gt;= #{para.nowTime,jdbcType=BIGINT}
+    <if test="para.eventType == 1">
+      and event.template_id = 1
+    </if>
+    <if test="para.eventType == 2">
+      and (event.template_id = 2 or event.template_id = 3)
+    </if>
+    <if test="para.date != null">
+      and event.start_time &gt;= #{para.startTime,jdbcType=BIGINT} and event.start_time &lt; #{para.endTime,jdbcType=BIGINT}
+    </if>
+    order by event.start_time asc
+    )three
+    )
+    UNION
+    (
+    select * from(
+    select event.id ,4 as sort from event
+    WHERE event.id in
+    (select event_id from event_city_relation ecr where recommend_state = 1
+    <if test="para.cityId != -100001 and para.cityId != -100002">
+      and (city_id = #{para.cityId,jdbcType=INTEGER} or city_id = -2)
+    </if>
+    group by event_id
+    )
+    and end_time &lt; #{para.nowTime,jdbcType=BIGINT}
+    <if test="para.date != null">
+      and event.start_time  &gt;= #{para.startTime,jdbcType=BIGINT} and event.start_time &lt; #{para.endTime,jdbcType=BIGINT}
+    </if>
+    <if test="para.eventType == 1">
+      and event.template_id = 1
+    </if>
+    <if test="para.eventType == 2">
+      and (event.template_id = 2 or event.template_id = 3)
+    </if>
+    order by event.start_time DESC
+    )four
+    )
+    )r , (SELECT @rownum:=0) row
+    )rr , event e ,event_city_relation ecr1
+    where
+    rr.id=e.id and rr.id=ecr1.event_id
+    and e.state = 2
+    and e.open_extension = 1
+    <if test="para.cityId != -100001 and para.cityId != -100002">
+      and (ecr1.city_id = #{para.cityId,jdbcType=INTEGER} or ecr1.city_id = -2)
+    </if>
+    <if test="para.cityId == -100001">
+      and (ecr1.city_id = e.city_id or ecr1.city_id = -2)
+    </if>
+    <if test="para.cityId == -100002">
+      and e.line_type = 1
+    </if>
+    order by rr.rownum
+    limit #{para.page,jdbcType=INTEGER}, #{para.size,jdbcType=INTEGER}
+  </select>
+  <select id="selectYesterdayEndEvent" resultType="com.welian.pojo.Event" resultMap="BaseResultMap">
+    select
+    e.id, e.publish_uid, e.org_id, e.template_id, e.title, e.line_type, e.address, e.city_id, e.city_name,
+    e.latitude, e.longitude, e.start_time, e.end_time, e.deadline_time, e.logo, e.open_extension, e.favorite_count,
+    e.state, e.create_time, e.modify_time, e.recommend_status, e.link_url_count, e.ad_count, e.detail_browse_count,
+    e.form_browse_count,e.commodity_id
+    from event e
+    inner JOIN event_state_custom esc on e.id = esc.event_id
+    where e.state = 2 and e.template_id = 1 and esc.cost_type = 1 and e.old_event_id = 0
+    and e.end_time &lt; #{endTime} and e.end_time &gt;= #{startTime}
+    ORDER BY e.id desc
+  </select>
+
+  <select id="countEventMiniList" resultType="java.lang.Integer">
+    SELECT count(1)
+    from (
+    select @rownum:=@rownum+1 rownum,r.* from (
+    (
+    select * from(
+    select event.id , 1 as sort from event event
+    inner JOIN event_city_relation ecr on event.id = ecr.event_id
+    and ecr.recommend_state = 1 and ecr.hot_state = 1 and event.deadline_time &gt; #{para.nowTime,jdbcType=BIGINT}
+    <if test="para.date != null">
+      and event.start_time &gt;= #{para.startTime,jdbcType=BIGINT} and event.start_time &lt; #{para.endTime,jdbcType=BIGINT}
+    </if>
+    <if test="para.cityId != -100001 and para.cityId != -100002">
+      and (ecr.city_id = #{para.cityId,jdbcType=INTEGER} or ecr.city_id = -2)
+    </if>
+    <if test="para.cityId == -100001">
+      and (ecr.city_id = event.city_id or ecr.city_id = -2)
+    </if>
+    <if test="para.eventType == 1">
+      and event.template_id = 1
+    </if>
+    <if test="para.eventType == 2">
+      and (event.template_id = 2 or event.template_id = 3)
+    </if>
+    order by event.start_time asc
+    )one
+    )
+    UNION
+    (
+    select * from(
+    select event.id ,2 as sort from event event
+    inner JOIN event_city_relation ecr on event.id = ecr.event_id
+    and ecr.recommend_state = 1 and ecr.hot_state = 0
+    and event.deadline_time &gt; #{para.nowTime,jdbcType=BIGINT}
+    <if test="para.date != null">
+      and event.start_time &gt;= #{para.startTime,jdbcType=BIGINT} and event.start_time &lt; #{para.endTime,jdbcType=BIGINT}
+    </if>
+    <if test="para.cityId != -100001 and para.cityId != -100002">
+      and (ecr.city_id = #{para.cityId,jdbcType=INTEGER} or ecr.city_id = -2)
+    </if>
+    <if test="para.cityId == -100001">
+      and (ecr.city_id = event.city_id or ecr.city_id = -2)
+    </if>
+    <if test="para.eventType == 1">
+      and event.template_id = 1
+    </if>
+    <if test="para.eventType == 2">
+      and (event.template_id = 2 or event.template_id = 3)
+    </if>
+    order by event.start_time asc
+    )two
+    )
+    UNION
+    (
+    select * from(
+    select event.id ,3 as sort from event
+    WHERE event.id in
+    (select event_id from event_city_relation ecr where recommend_state = 1
+    <if test="para.cityId != -100001 and para.cityId != -100002">
+      and (city_id = #{para.cityId,jdbcType=INTEGER} or city_id = -2)
+    </if>
+    group by event_id
+    )
+    and deadline_time &lt;= #{para.nowTime,jdbcType=BIGINT} and end_time &gt;= #{para.nowTime,jdbcType=BIGINT}
+    <if test="para.eventType == 1">
+      and event.template_id = 1
+    </if>
+    <if test="para.eventType == 2">
+      and (event.template_id = 2 or event.template_id = 3)
+    </if>
+    <if test="para.date != null">
+      and event.start_time &gt;= #{para.startTime,jdbcType=BIGINT} and event.start_time &lt; #{para.endTime,jdbcType=BIGINT}
+    </if>
+    order by event.start_time asc
+    )three
+    )
+    UNION
+    (
+    select * from(
+    select event.id ,4 as sort from event
+    WHERE event.id in
+    (select event_id from event_city_relation ecr where recommend_state = 1
+    <if test="para.cityId != -100001 and para.cityId != -100002">
+      and (city_id = #{para.cityId,jdbcType=INTEGER} or city_id = -2)
+    </if>
+    group by event_id
+    )
+    and end_time &lt; #{para.nowTime,jdbcType=BIGINT}
+    <if test="para.date != null">
+      and event.start_time  &gt;= #{para.startTime,jdbcType=BIGINT} and event.start_time &lt; #{para.endTime,jdbcType=BIGINT}
+    </if>
+    <if test="para.eventType == 1">
+      and event.template_id = 1
+    </if>
+    <if test="para.eventType == 2">
+      and (event.template_id = 2 or event.template_id = 3)
+    </if>
+    order by event.start_time DESC
+    )four
+    )
+    )r , (SELECT @rownum:=0) row
+    )rr , event e ,event_city_relation ecr1
+    where
+    rr.id=e.id and rr.id=ecr1.event_id
+    and e.state = 2
+    and e.open_extension = 1
+    <if test="para.cityId != -100001 and para.cityId != -100002">
+      and (ecr1.city_id = #{para.cityId,jdbcType=INTEGER} or ecr1.city_id = -2)
+    </if>
+    <if test="para.cityId == -100001">
+      and (ecr1.city_id = e.city_id or ecr1.city_id = -2)
+    </if>
+    <if test="para.cityId == -100002">
+      and e.line_type = 1
+    </if>
+    order by rr.rownum
+  </select>
+
+    <select id="countCoverCity" resultType="java.lang.Integer">
+        select count(1) from (select distinct city_id from event) as a
+    </select>
+
+    <select id="selectByIds" resultMap="BaseResultMap">
+        select
+            <include refid="Base_Column_List" />
+        from event
+        WHERE 1 = 1
+            <if test="ids !=null">
+                and id in
+                <foreach collection="ids" open="(" separator="," close=")" item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="state != null">
+                and state = #{state}
+            </if>
+            <if test="nowTime != null">
+                and deadline_time >= #{nowTime}
+            </if>
+        <if test="ids != null">
+            order by  field(id,
+            <foreach collection="ids"  separator="," item="item">
+                #{item}
+            </foreach>
+            )
+        </if>
+        <if test="count > 0">
+            limit #{count}
+        </if>
+    </select>
+
+</mapper>

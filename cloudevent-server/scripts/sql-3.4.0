@@ -1,0 +1,107 @@
+/*welian_cloud_event表*/
+/*event 增加商品号*/
+ALTER TABLE `welian_cloud_event`.`event`
+ADD COLUMN `commodity_id` INT(11) NOT NULL DEFAULT 0 AFTER `form_browse_count`;
+ADD COLUMN `old_event_id` INT(11) NOT NULL DEFAULT 0 AFTER `commodity_id`;
+
+/*event_record表增加订单号和订单结束时间字段*/
+ALTER TABLE `welian_cloud_event`.`event_record`
+ADD COLUMN `trade_no` VARCHAR(200) NOT NULL DEFAULT '0' COMMENT  '订单号' AFTER `ticket_number`,
+ADD COLUMN `trade_end_time` BIGINT(20) NOT NULL DEFAULT 0 COMMENT '订单结束时间' AFTER `trade_no,
+ADD COLUMN `ticket_url` VARCHAR(200) NOT NULL DEFAULT '' COMMENT '票链接短链' AFTER `trade_end_time`;
+
+/*创建活动与订单关系表*/
+CREATE TABLE `event_ticket_order` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `event_record_id` int(11) NOT NULL COMMENT '报名的id',
+  `event_id` int(11) NOT NULL COMMENT '活动id',
+  `ticket_no` varchar(200) NOT NULL DEFAULT '' COMMENT '票号',
+  `commodity_detail_id` int(11) NOT NULL COMMENT '商品明细号',
+  `ticket_state` int(11) NOT NULL COMMENT '票状态 0.正常 1.异常',
+  `sign_state` int(11) NOT NULL COMMENT '签名状态：0.未签到 1.已签到',
+  `sign_time` bigint(20) DEFAULT NULL COMMENT '签到时间',
+  `create_time` bigint(20) NOT NULL,
+  `modify_time` bigint(20) NOT NULL,
+  `ticket_id` int(11) NOT NULL COMMENT '票的规格id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*活动和商品结算关系表*/
+CREATE TABLE `event_order` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `event_id` int(11) NOT NULL,
+  `batchNum` varchar(32) DEFAULT NULL COMMENT '批次号（对应商品）',
+  `commodity_id` int(11) NOT NULL COMMENT '商品id',
+  `create_time` bigint(20) NOT NULL,
+  `modify_time` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*普通活动报名 报名设置表单重建*/
+DROP TABLE `event_state_custom`;
+CREATE TABLE `event_state_custom` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `event_id` int(11) NOT NULL COMMENT '活动的id',
+  `cost_type` tinyint(2) NOT NULL DEFAULT '0' COMMENT '观众项目时费用类型，默认0表示免费，1表示收费',
+  `verify_type` tinyint(2) NOT NULL DEFAULT '0' COMMENT '需不需要审核，默认0表示不审核，1表示需要审核',
+  `open_sign_up_list` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否观众报名列表公开，0默认表示公开，1表示不公开',
+  `sign_count` int(11) NOT NULL DEFAULT '0' COMMENT '已签到的数量',
+  `joined_count` int(11) NOT NULL DEFAULT '0' COMMENT '已报名的数量',
+  `auth_password` varchar(45) NOT NULL COMMENT '活动观众签到授权码',
+  `group_chat_state` tinyint(2) NOT NULL,
+  `finance_status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '如果是收费活动时的对账状态，默认0表示未对账，1表示已对账',
+  `modify_time` bigint(20) NOT NULL,
+  `create_time` bigint(20) NOT NULL,
+  `group_chat` varchar(45) DEFAULT NULL COMMENT '开启群聊后群聊号',
+  `custom_number_state` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否公开票券数量 ,默认0表示不公开 1公开',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `event_id_UNIQUE` (`event_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4 COMMENT='活动的观众报名的一些配置';
+
+/*表之前没用，删后重加*/
+DROP TABLE IF EXISTS `event_state_custom`;
+CREATE TABLE `event_state_custom` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `event_id` int(11) NOT NULL COMMENT '活动的id',
+  `cost_type` tinyint(2) NOT NULL DEFAULT '0' COMMENT '观众项目时费用类型，默认0表示免费，1表示收费',
+  `verify_type` tinyint(2) NOT NULL DEFAULT '0' COMMENT '需不需要审核，默认0表示不审核，1表示需要审核',
+  `open_sign_up_list` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否观众报名列表公开，0默认表示公开，1表示不公开',
+  `sign_count` int(11) NOT NULL DEFAULT '0' COMMENT '已签到的数量',
+  `joined_count` int(11) NOT NULL DEFAULT '0' COMMENT '已报名的数量',
+  `auth_password` varchar(45) NOT NULL COMMENT '活动观众签到授权码',
+  `group_chat_state` tinyint(2) NOT NULL,
+  `finance_status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '如果是收费活动时的对账状态，默认0表示未对账，1表示已对账',
+  `modify_time` bigint(20) NOT NULL,
+  `create_time` bigint(20) NOT NULL,
+  `group_chat` varchar(45) DEFAULT NULL COMMENT '开启群聊后群聊号',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `event_id_UNIQUE` (`event_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='活动的观众报名的一些配置';
+
+/*统计表兼容创业活动的票券统计*/
+ALTER TABLE `welian_cloud_event`.`project_receive_per_activity_one_day`
+ADD COLUMN `ticket_receive_count` INT(11) NOT NULL DEFAULT 0 COMMENT '每天收到的票数' AFTER `date`;
+ADD COLUMN `sign_in_count` INT(11) NOT NULL DEFAULT 0 COMMENT '签到的数量' AFTER `ticket_receive_count`;
+
+
+ALTER TABLE `welian_cloud_event`.`project_receive_per_link_one_day`
+ADD COLUMN `ticket_receive_count` INT(11) NOT NULL DEFAULT 0 AFTER `modify_time`;
+ADD COLUMN `sign_in_count` INT(11) NOT NULL DEFAULT 0 COMMENT '签到的数量' AFTER `ticket_receive_count`;
+
+
+ALTER TABLE `welian_cloud_event`.`project_receive_per_org_one_day`
+ADD COLUMN `ticket_receive_count` INT(11) NOT NULL DEFAULT 0 AFTER `modify_time`;
+ADD COLUMN `sign_in_count` INT(11) NOT NULL DEFAULT 0 COMMENT '签到的数量' AFTER `ticket_receive_count`;
+
+
+/*event_record表加old_record_id清洗数据用*/
+ALTER TABLE `welian_cloud_event`.`event_record`
+ADD COLUMN `old_record_id` INT(11) NOT NULL DEFAULT 0 AFTER `ticket_url`;
+
+
+/*welian表*/
+INSERT INTO `organization_module_package` (`id`, `package_id`, `module_id`, `fee`, `source_id`) VALUES(40, 2, 204, 1, 4);
+
+INSERT INTO `organization_role_module` (`id`, `org_id`, `source_id`, `role_id`, `module_id`) VALUES(2201, 0, 4, 133, 204);
+
+UPDATE `organization_module` SET name='账单管理', content='/bill', icon='wl-icon-wallet' where id=204;

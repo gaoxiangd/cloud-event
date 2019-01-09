@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.welian.mapper.ProjectBackupInfoMapper">
+    <resultMap id="BaseResultMap" type="com.welian.pojo.ProjectBackupInfo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="pid" jdbcType="INTEGER" property="pid"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="intro" jdbcType="VARCHAR" property="intro"/>
+        <result column="logo" jdbcType="VARCHAR" property="logo"/>
+        <result column="city_id" jdbcType="INTEGER" property="cityId"/>
+        <result column="city_name" jdbcType="VARCHAR" property="cityName"/>
+        <result column="industry_id" jdbcType="INTEGER" property="industryId"/>
+        <result column="industry_name" jdbcType="VARCHAR" property="industryName"/>
+        <result column="project_create_uid" jdbcType="INTEGER" property="projectCreateUid"/>
+        <result column="project_share" jdbcType="DOUBLE" property="projectShare"/>
+        <result column="project_amount" jdbcType="INTEGER" property="projectAmount"/>
+        <result column="project_amount_unit" jdbcType="TINYINT" property="projectAmountUnit"/>
+        <result column="project_stage" jdbcType="INTEGER" property="projectStage"/>
+        <result column="state" jdbcType="TINYINT" property="state"/>
+        <result column="create_time" jdbcType="BIGINT" property="createTime"/>
+        <result column="modify_time" jdbcType="BIGINT" property="modifyTime"/>
+        <result column="project_sign_bp_id" jdbcType="INTEGER" property="projectSignBpId"/>
+        <result column="project_sign_bp_url" jdbcType="VARCHAR" property="projectSignBpUrl"/>
+        <result column="project_sign_bp_name" jdbcType="VARCHAR" property="projectSignBpName"/>
+        <result column="project_version" jdbcType="VARCHAR" property="projectVersion"/>
+        <result column="event_record_id" jdbcType="INTEGER" property="eventRecordId"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, pid, name, intro, logo, city_id, city_name, industry_id, industry_name, project_create_uid, 
+    project_share, project_amount, project_amount_unit, project_stage, state, create_time, 
+    modify_time, project_sign_bp_id, project_sign_bp_url, project_sign_bp_name, project_version, 
+    event_record_id
+  </sql>
+    <select id="selectByExample" parameterType="com.welian.pojo.ProjectBackupInfoExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        'true' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from project_backup_info
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select 'true' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from project_backup_info
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from project_backup_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.welian.pojo.ProjectBackupInfoExample">
+        delete from project_backup_info
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.welian.pojo.ProjectBackupInfo"
+            useGeneratedKeys="true">
+    insert into project_backup_info (pid, name, intro, 
+      logo, city_id, city_name, 
+      industry_id, industry_name, project_create_uid, 
+      project_share, project_amount, project_amount_unit, 
+      project_stage, state, create_time, 
+      modify_time, project_sign_bp_id, project_sign_bp_url, 
+      project_sign_bp_name, project_version, event_record_id
+      )
+    values (#{pid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{intro,jdbcType=VARCHAR}, 
+      #{logo,jdbcType=VARCHAR}, #{cityId,jdbcType=INTEGER}, #{cityName,jdbcType=VARCHAR}, 
+      #{industryId,jdbcType=INTEGER}, #{industryName,jdbcType=VARCHAR}, #{projectCreateUid,jdbcType=INTEGER}, 
+      #{projectShare,jdbcType=DOUBLE}, #{projectAmount,jdbcType=INTEGER}, #{projectAmountUnit,jdbcType=TINYINT}, 
+      #{projectStage,jdbcType=INTEGER}, #{state,jdbcType=TINYINT}, #{createTime,jdbcType=BIGINT}, 
+      #{modifyTime,jdbcType=BIGINT}, #{projectSignBpId,jdbcType=INTEGER}, #{projectSignBpUrl,jdbcType=VARCHAR}, 
+      #{projectSignBpName,jdbcType=VARCHAR}, #{projectVersion,jdbcType=VARCHAR}, #{eventRecordId,jdbcType=INTEGER}
+      )
+  </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.welian.pojo.ProjectBackupInfo"
+            useGeneratedKeys="true">
+        insert into project_backup_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pid != null">
+                pid,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="intro != null">
+                intro,
+            </if>
+            <if test="logo != null">
+                logo,
+            </if>
+            <if test="cityId != null">
+                city_id,
+            </if>
+            <if test="cityName != null">
+                city_name,
+            </if>
+            <if test="industryId != null">
+                industry_id,
+            </if>
+            <if test="industryName != null">
+                industry_name,
+            </if>
+            <if test="projectCreateUid != null">
+                project_create_uid,
+            </if>
+            <if test="projectShare != null">
+                project_share,
+            </if>
+            <if test="projectAmount != null">
+                project_amount,
+            </if>
+            <if test="projectAmountUnit != null">
+                project_amount_unit,
+            </if>
+            <if test="projectStage != null">
+                project_stage,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="modifyTime != null">
+                modify_time,
+            </if>
+            <if test="projectSignBpId != null">
+                project_sign_bp_id,
+            </if>
+            <if test="projectSignBpUrl != null">
+                project_sign_bp_url,
+            </if>
+            <if test="projectSignBpName != null">
+                project_sign_bp_name,
+            </if>
+            <if test="projectVersion != null">
+                project_version,
+            </if>
+            <if test="eventRecordId != null">
+                event_record_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pid != null">
+                #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="intro != null">
+                #{intro,jdbcType=VARCHAR},
+            </if>
+            <if test="logo != null">
+                #{logo,jdbcType=VARCHAR},
+            </if>
+            <if test="cityId != null">
+                #{cityId,jdbcType=INTEGER},
+            </if>
+            <if test="cityName != null">
+                #{cityName,jdbcType=VARCHAR},
+            </if>
+            <if test="industryId != null">
+                #{industryId,jdbcType=INTEGER},
+            </if>
+            <if test="industryName != null">
+                #{industryName,jdbcType=VARCHAR},
+            </if>
+            <if test="projectCreateUid != null">
+                #{projectCreateUid,jdbcType=INTEGER},
+            </if>
+            <if test="projectShare != null">
+                #{projectShare,jdbcType=DOUBLE},
+            </if>
+            <if test="projectAmount != null">
+                #{projectAmount,jdbcType=INTEGER},
+            </if>
+            <if test="projectAmountUnit != null">
+                #{projectAmountUnit,jdbcType=TINYINT},
+            </if>
+            <if test="projectStage != null">
+                #{projectStage,jdbcType=INTEGER},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=BIGINT},
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime,jdbcType=BIGINT},
+            </if>
+            <if test="projectSignBpId != null">
+                #{projectSignBpId,jdbcType=INTEGER},
+            </if>
+            <if test="projectSignBpUrl != null">
+                #{projectSignBpUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="projectSignBpName != null">
+                #{projectSignBpName,jdbcType=VARCHAR},
+            </if>
+            <if test="projectVersion != null">
+                #{projectVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="eventRecordId != null">
+                #{eventRecordId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.welian.pojo.ProjectBackupInfoExample" resultType="java.lang.Long">
+        select count(*) from project_backup_info
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update project_backup_info
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.pid != null">
+                pid = #{record.pid,jdbcType=INTEGER},
+            </if>
+            <if test="record.name != null">
+                name = #{record.name,jdbcType=VARCHAR},
+            </if>
+            <if test="record.intro != null">
+                intro = #{record.intro,jdbcType=VARCHAR},
+            </if>
+            <if test="record.logo != null">
+                logo = #{record.logo,jdbcType=VARCHAR},
+            </if>
+            <if test="record.cityId != null">
+                city_id = #{record.cityId,jdbcType=INTEGER},
+            </if>
+            <if test="record.cityName != null">
+                city_name = #{record.cityName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.industryId != null">
+                industry_id = #{record.industryId,jdbcType=INTEGER},
+            </if>
+            <if test="record.industryName != null">
+                industry_name = #{record.industryName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.projectCreateUid != null">
+                project_create_uid = #{record.projectCreateUid,jdbcType=INTEGER},
+            </if>
+            <if test="record.projectShare != null">
+                project_share = #{record.projectShare,jdbcType=DOUBLE},
+            </if>
+            <if test="record.projectAmount != null">
+                project_amount = #{record.projectAmount,jdbcType=INTEGER},
+            </if>
+            <if test="record.projectAmountUnit != null">
+                project_amount_unit = #{record.projectAmountUnit,jdbcType=TINYINT},
+            </if>
+            <if test="record.projectStage != null">
+                project_stage = #{record.projectStage,jdbcType=INTEGER},
+            </if>
+            <if test="record.state != null">
+                state = #{record.state,jdbcType=TINYINT},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=BIGINT},
+            </if>
+            <if test="record.modifyTime != null">
+                modify_time = #{record.modifyTime,jdbcType=BIGINT},
+            </if>
+            <if test="record.projectSignBpId != null">
+                project_sign_bp_id = #{record.projectSignBpId,jdbcType=INTEGER},
+            </if>
+            <if test="record.projectSignBpUrl != null">
+                project_sign_bp_url = #{record.projectSignBpUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="record.projectSignBpName != null">
+                project_sign_bp_name = #{record.projectSignBpName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.projectVersion != null">
+                project_version = #{record.projectVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="record.eventRecordId != null">
+                event_record_id = #{record.eventRecordId,jdbcType=INTEGER},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update project_backup_info
+        set id = #{record.id,jdbcType=INTEGER},
+        pid = #{record.pid,jdbcType=INTEGER},
+        name = #{record.name,jdbcType=VARCHAR},
+        intro = #{record.intro,jdbcType=VARCHAR},
+        logo = #{record.logo,jdbcType=VARCHAR},
+        city_id = #{record.cityId,jdbcType=INTEGER},
+        city_name = #{record.cityName,jdbcType=VARCHAR},
+        industry_id = #{record.industryId,jdbcType=INTEGER},
+        industry_name = #{record.industryName,jdbcType=VARCHAR},
+        project_create_uid = #{record.projectCreateUid,jdbcType=INTEGER},
+        project_share = #{record.projectShare,jdbcType=DOUBLE},
+        project_amount = #{record.projectAmount,jdbcType=INTEGER},
+        project_amount_unit = #{record.projectAmountUnit,jdbcType=TINYINT},
+        project_stage = #{record.projectStage,jdbcType=INTEGER},
+        state = #{record.state,jdbcType=TINYINT},
+        create_time = #{record.createTime,jdbcType=BIGINT},
+        modify_time = #{record.modifyTime,jdbcType=BIGINT},
+        project_sign_bp_id = #{record.projectSignBpId,jdbcType=INTEGER},
+        project_sign_bp_url = #{record.projectSignBpUrl,jdbcType=VARCHAR},
+        project_sign_bp_name = #{record.projectSignBpName,jdbcType=VARCHAR},
+        project_version = #{record.projectVersion,jdbcType=VARCHAR},
+        event_record_id = #{record.eventRecordId,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.welian.pojo.ProjectBackupInfo">
+        update project_backup_info
+        <set>
+            <if test="pid != null">
+                pid = #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="intro != null">
+                intro = #{intro,jdbcType=VARCHAR},
+            </if>
+            <if test="logo != null">
+                logo = #{logo,jdbcType=VARCHAR},
+            </if>
+            <if test="cityId != null">
+                city_id = #{cityId,jdbcType=INTEGER},
+            </if>
+            <if test="cityName != null">
+                city_name = #{cityName,jdbcType=VARCHAR},
+            </if>
+            <if test="industryId != null">
+                industry_id = #{industryId,jdbcType=INTEGER},
+            </if>
+            <if test="industryName != null">
+                industry_name = #{industryName,jdbcType=VARCHAR},
+            </if>
+            <if test="projectCreateUid != null">
+                project_create_uid = #{projectCreateUid,jdbcType=INTEGER},
+            </if>
+            <if test="projectShare != null">
+                project_share = #{projectShare,jdbcType=DOUBLE},
+            </if>
+            <if test="projectAmount != null">
+                project_amount = #{projectAmount,jdbcType=INTEGER},
+            </if>
+            <if test="projectAmountUnit != null">
+                project_amount_unit = #{projectAmountUnit,jdbcType=TINYINT},
+            </if>
+            <if test="projectStage != null">
+                project_stage = #{projectStage,jdbcType=INTEGER},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=BIGINT},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime,jdbcType=BIGINT},
+            </if>
+            <if test="projectSignBpId != null">
+                project_sign_bp_id = #{projectSignBpId,jdbcType=INTEGER},
+            </if>
+            <if test="projectSignBpUrl != null">
+                project_sign_bp_url = #{projectSignBpUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="projectSignBpName != null">
+                project_sign_bp_name = #{projectSignBpName,jdbcType=VARCHAR},
+            </if>
+            <if test="projectVersion != null">
+                project_version = #{projectVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="eventRecordId != null">
+                event_record_id = #{eventRecordId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.welian.pojo.ProjectBackupInfo">
+    update project_backup_info
+    set pid = #{pid,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      intro = #{intro,jdbcType=VARCHAR},
+      logo = #{logo,jdbcType=VARCHAR},
+      city_id = #{cityId,jdbcType=INTEGER},
+      city_name = #{cityName,jdbcType=VARCHAR},
+      industry_id = #{industryId,jdbcType=INTEGER},
+      industry_name = #{industryName,jdbcType=VARCHAR},
+      project_create_uid = #{projectCreateUid,jdbcType=INTEGER},
+      project_share = #{projectShare,jdbcType=DOUBLE},
+      project_amount = #{projectAmount,jdbcType=INTEGER},
+      project_amount_unit = #{projectAmountUnit,jdbcType=TINYINT},
+      project_stage = #{projectStage,jdbcType=INTEGER},
+      state = #{state,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=BIGINT},
+      modify_time = #{modifyTime,jdbcType=BIGINT},
+      project_sign_bp_id = #{projectSignBpId,jdbcType=INTEGER},
+      project_sign_bp_url = #{projectSignBpUrl,jdbcType=VARCHAR},
+      project_sign_bp_name = #{projectSignBpName,jdbcType=VARCHAR},
+      project_version = #{projectVersion,jdbcType=VARCHAR},
+      event_record_id = #{eventRecordId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

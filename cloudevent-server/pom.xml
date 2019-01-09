@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <artifactId>cloudevent-parent</artifactId>
+        <groupId>com.welian</groupId>
+        <version>5.0.0</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>jar</packaging>
+    <artifactId>cloudevent-server</artifactId>
+
+    <properties>
+        <start-class>com.welian.ApplicationLauncher</start-class>
+        <molecule.version>5.0.0</molecule.version>
+        <notify.version>5.0.0</notify.version>
+        <wallet.version>5.0.0</wallet.version>
+        <delivery.version>5.0.7</delivery.version>
+        <manage.version>5.0.5</manage.version>
+        <aliyun-sdk-oss>2.4.0</aliyun-sdk-oss>
+        <distribution.version>5.0.0</distribution.version>
+        <recommend.version>5.0.0</recommend.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.sean</groupId>
+            <artifactId>framework-ms-base</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.sean</groupId>
+            <artifactId>framework-scheduler</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.welian</groupId>
+            <artifactId>distribution-beans</artifactId>
+            <version>${distribution.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.welian</groupId>
+            <artifactId>distribution-client</artifactId>
+            <version>${distribution.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+            <version>${aliyun-sdk-oss}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.16</version>
+        </dependency>
+        <dependency>
+            <groupId>com.welian</groupId>
+            <artifactId>commodity-client</artifactId>
+            <version>${commodity.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.welian</groupId>
+            <artifactId>recommend-client</artifactId>
+            <version>${recommend.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.welian</groupId>
+            <artifactId>bp-delivery-beans</artifactId>
+            <version>${delivery.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.welian</groupId>
+            <artifactId>bp-delivery-client</artifactId>
+            <version>${delivery.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.welian</groupId>
+            <artifactId>cloudevent-beans</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.welian</groupId>
+            <artifactId>account-client</artifactId>
+            <version>${account.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.welian</groupId>
+            <artifactId>molecule-client</artifactId>
+            <version>${molecule.version}</version>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.welian</groupId>-->
+            <!--<artifactId>investor-client</artifactId>-->
+            <!--<version>${investor.version}</version>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>com.welian</groupId>
+            <artifactId>notify-client</artifactId>
+            <version>${notify.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.welian</groupId>
+            <artifactId>wallet-client</artifactId>
+            <version>${wallet.version}</version>
+        </dependency>
+
+        <!--<dependency>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-data-solr</artifactId>-->
+        <!--</dependency>-->
+
+
+        <!-- SolrJ 搜索引擎服务 -->
+        <dependency>
+            <groupId>org.apache.solr</groupId>
+            <artifactId>solr-solrj</artifactId>
+            <version>6.6.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.solr</groupId>
+            <artifactId>solr-core</artifactId>
+            <version>6.6.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.welian</groupId>
+            <artifactId>bp-manage-client</artifactId>
+            <version>${manage.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.33</version>
+        </dependency>
+    </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>${start-class}</mainClass>
+                </configuration>
+            </plugin>
+            <!-- 加入maven deploy插件，当在deploy时，忽略些model-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+        <finalName>${project.artifactId}</finalName>
+    </build>
+</project>

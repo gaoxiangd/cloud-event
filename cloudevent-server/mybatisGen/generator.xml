@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!-- 引入配置文件 -->
+    <properties resource="config.properties"/>
+    <!-- 数据库驱动包位置 -->
+    <classPathEntry location="./mysql-connector-java-5.1.22-bin.jar"/>
+
+    <!-- <classPathEntry location="C:\oracle\product\10.2.0\db_1\jdbc\lib\ojdbc14.jar" />-->
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+
+        <!-- Mysql分页插件 -->
+        <plugin type="org.mybatis.generator.plugins.MySQLLimitPlugin"/>
+
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <!-- 数据库链接URL、用户名、密码 -->
+        <jdbcConnection driverClass="${jdbc_driver}"
+                        connectionURL="${jdbc_url}" userId="${jdbc_user}"
+                        password="${jdbc_password}"/>
+
+        <!-- false：JDBC DECIMAL、NUMERIC類型解析為Integer，默認方式 -->
+        <!-- true：JDBC DECIMAL、NUMERIC類型解析為java.math.BigDecimal -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+        <!-- 生成实体类的包名和位置，这里配置将生成的实体类放在com.welian.message.pojo这个包下 -->
+        <javaModelGenerator targetPackage="${targetPojoPackage}" targetProject="${targetProject}">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <!-- 生成的SQL映射文件包名和位置，这里配置将生成的SQL映射文件放在com.welian.mapper.message这个包下 -->
+        <sqlMapGenerator targetPackage="${targetSqlMapperPackage}" targetProject="${targetProject}">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+        <!-- 生成DAO的包名和位置，这里配置将生成的dao类放在com.welian.mapper.message这个包下 -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="${targetJavaMapperPackage}"
+                             targetProject="${targetProject}">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+        <!-- 要生成那些表(更改tableName和domainObjectName就可以) -->
+
+
+
+        <!--<table tableName="sms_history" domainObjectName="SmsHistory" enableUpdateByPrimaryKey="true"-->
+               <!--enableDeleteByPrimaryKey="true"-->
+               <!--enableInsert="true" enableSelectByPrimaryKey="true" selectByPrimaryKeyQueryId="true"-->
+               <!--enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true"-->
+               <!--enableSelectByExample="true" selectByExampleQueryId="true">-->
+            <!--&lt;!&ndash; ibatis id 在返回值里   mybatis id 在对象中获取&ndash;&gt;-->
+            <!--<generatedKey column="id" sqlStatement="JDBC"/>-->
+        <!--</table>-->
+        <table tableName="event_city_relation" domainObjectName="EventCityRelation" enableUpdateByPrimaryKey="true"
+               enableDeleteByPrimaryKey="true"
+               enableInsert="true" enableSelectByPrimaryKey="true" selectByPrimaryKeyQueryId="true"
+               enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true" selectByExampleQueryId="true">
+            <!-- ibatis id 在返回值里   mybatis id 在对象中获取-->
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+
+
+    </context>
+</generatorConfiguration>

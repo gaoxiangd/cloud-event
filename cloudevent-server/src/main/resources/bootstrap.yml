@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: ${APPLICATION_NAME:cloudevent}
+  cloud:
+    config:
+      uri: ${CONFIG_URI:http://192.168.1.253:10000}
+      username: ${CONFIG_USERNAME:welian}
+      password: ${CONFIG_PASSWORD:welian}
+      label: ${CONFIG_LABEL:dev}
+      profile: ${CONFIG_PROFILE:dev}
+
+spring.main.allow-bean-definition-overriding: true

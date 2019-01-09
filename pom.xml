@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!-- Inherit defaults from Welian-Client -->
+    <parent>
+        <groupId>org.sean</groupId>
+        <artifactId>framework-parent</artifactId>
+        <version>5.1.0</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
+    <version>5.0.0</version>
+    <groupId>com.welian</groupId>
+    <artifactId>cloudevent-parent</artifactId>
+
+    <modules>
+        <module>cloudevent-beans</module>
+        <module>cloudevent-client</module>
+        <module>cloudevent-server</module>
+    </modules>
+
+    <repositories>
+        <repository>
+            <id>aliyun</id>
+            <url>https://maven.aliyun.com/repository/public</url>
+        </repository>
+        <repository>
+            <id>welian-nexus</id>
+            <url>http://maven.welian.com/repository/maven-public/</url>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>welian-nexus</id>
+            <url>http://maven.welian.com/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>welian-nexus-snapshots</id>
+            <url>http://maven.welian.com/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <properties>
+        <framework.version>5.1.0</framework.version>
+        <revision>5.0.0</revision>
+        <account.version>5.0.0</account.version>
+        <commodity.version>5.0.0</commodity.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.sean</groupId>
+                <artifactId>framework-ms-starter</artifactId>
+                <version>${framework.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.welian</groupId>
+                <artifactId>cloudevent-beans</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.welian</groupId>
+                <artifactId>account-client</artifactId>
+                <version>${account.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.welian</groupId>
+                <artifactId>account-beans</artifactId>
+                <version>${account.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>20.0</version>
+            </dependency>
+        </dependencies>
+
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <!-- maven-compiler-plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <!-- 打包源码 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+            <!-- 版本号 -->
+            <plugin>
+                <artifactId>versions-maven-plugin</artifactId>
+                <groupId>org.codehaus.mojo</groupId>
+                <configuration>
+                    <!--这是新版本号-->
+                    <newVersion>${revision}</newVersion>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

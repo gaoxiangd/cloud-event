@@ -1,0 +1,2 @@
+ALTER TABLE `welian_cloud_event`.`event`
+ADD COLUMN `coupon_status` INT(11) NOT NULL DEFAULT 0 COMMENT '是否屏蔽优惠券（0不屏蔽 1屏蔽）' AFTER `old_event_id`;

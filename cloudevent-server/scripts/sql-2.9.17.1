@@ -1,0 +1,44 @@
+CREATE TABLE `event_custom_web` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `event_id` int(11) NOT NULL COMMENT '对应的活动id',
+  `content` longtext COMMENT '生成的专题官网的内容',
+  `create_time` bigint(20) NOT NULL,
+  `modify_time` bigint(20) NOT NULL,
+  `state` tinyint(2) NOT NULL DEFAULT '0' COMMENT '当前状态，默认0表示正常，1表示已删除',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `event_id_UNIQUE` (`event_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COMMENT='活动专题官网表';
+
+CREATE TABLE `event_sys_message` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `org_id` int(11) NOT NULL COMMENT '机构id',
+  `event_id` int(11) NOT NULL COMMENT '活动id',
+  `confirm_type` tinyint(2) NOT NULL DEFAULT '1' COMMENT '1表示推荐成功，2表示推广上热门，3认证申请已通过，4认证审核失败',
+  `send_uid` int(11) NOT NULL COMMENT '发布者',
+  `isread` tinyint(2) NOT NULL DEFAULT '0' COMMENT '消息是否被读，默认0表示未读，1表示已读',
+  `reason` varchar(500) DEFAULT NULL COMMENT '运营后台填写失败时的原因',
+  `create_time` bigint(20) NOT NULL COMMENT '创建时间',
+  `modify_time` bigint(20) NOT NULL COMMENT '修改时间',
+  `state` tinyint(2) NOT NULL DEFAULT '0' COMMENT '状态，默认0表示正常，1表示已删除',
+  `operator_uid` int(11) NOT NULL COMMENT '这条数据操作者的uid',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COMMENT='活动系统消息表';
+
+ALTER TABLE `welian_cloud_event`.`event_custom_field`
+CHANGE COLUMN `id` `id` INT(11) NOT NULL ,
+ADD COLUMN `required` TINYINT(2) NOT NULL DEFAULT '0' COMMENT '表单字段报名时是否需要必填，0表示非必填，1表示必填' AFTER `modify_time`,
+ADD COLUMN `limit_count` INT(11) NOT NULL DEFAULT '100' COMMENT '限制字数，为空后台默认100' AFTER `required`;
+
+ALTER TABLE `welian_cloud_event`.`event_record`
+ADD COLUMN `reason` VARCHAR(500) NULL AFTER `order_number`;
+
+ALTER TABLE `welian_cloud_event`.`event_sms`
+ADD COLUMN `source` INT(11) NOT NULL DEFAULT '0' COMMENT '消息来源 0：不需要审核 1：待审核 2：报名审核通过 3：主办方删除记录 4：审核被拒绝 5：管理短信' AFTER `modify_time`;
+
+
+ALTER TABLE `welian_cloud_event`.`org_info`
+ADD COLUMN `new_id` INT(11) NOT NULL  AFTER `intro`;
+
+ALTER TABLE `welian_cloud_event`.`event`
+CHANGE COLUMN `latitude` `latitude` DOUBLE NOT NULL DEFAULT '0' COMMENT '举办地址的百度地图上的经度' ,
+CHANGE COLUMN `longitude` `longitude` DOUBLE NOT NULL DEFAULT '0' COMMENT '举办地址的百度地图上的维度' ;

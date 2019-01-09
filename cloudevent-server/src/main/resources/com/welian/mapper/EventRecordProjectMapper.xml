@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.welian.mapper.EventRecordProjectMapper">
+    <resultMap id="BaseResultMap" type="com.welian.pojo.EventRecordProject">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="event_record_id" jdbcType="INTEGER" property="eventRecordId"/>
+        <result column="pid" jdbcType="INTEGER" property="pid"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="star_level" jdbcType="TINYINT" property="starLevel"/>
+        <result column="create_time" jdbcType="BIGINT" property="createTime"/>
+        <result column="sign_up_time" jdbcType="BIGINT" property="signUpTime"/>
+        <result column="delivery_count" jdbcType="INTEGER" property="deliveryCount"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, event_record_id, pid, remark, star_level, create_time, sign_up_time, delivery_count
+  </sql>
+    <select id="selectByExample" parameterType="com.welian.pojo.EventRecordProjectExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        'true' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from event_record_project
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select 'true' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from event_record_project
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from event_record_project
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.welian.pojo.EventRecordProjectExample">
+        delete from event_record_project
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.welian.pojo.EventRecordProject"
+            useGeneratedKeys="true">
+    insert into event_record_project (event_record_id, pid, remark, 
+      star_level, create_time, sign_up_time, 
+      delivery_count)
+    values (#{eventRecordId,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{starLevel,jdbcType=TINYINT}, #{createTime,jdbcType=BIGINT}, #{signUpTime,jdbcType=BIGINT}, 
+      #{deliveryCount,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.welian.pojo.EventRecordProject"
+            useGeneratedKeys="true">
+        insert into event_record_project
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="eventRecordId != null">
+                event_record_id,
+            </if>
+            <if test="pid != null">
+                pid,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="starLevel != null">
+                star_level,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="signUpTime != null">
+                sign_up_time,
+            </if>
+            <if test="deliveryCount != null">
+                delivery_count,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="eventRecordId != null">
+                #{eventRecordId,jdbcType=INTEGER},
+            </if>
+            <if test="pid != null">
+                #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="starLevel != null">
+                #{starLevel,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=BIGINT},
+            </if>
+            <if test="signUpTime != null">
+                #{signUpTime,jdbcType=BIGINT},
+            </if>
+            <if test="deliveryCount != null">
+                #{deliveryCount,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.welian.pojo.EventRecordProjectExample" resultType="java.lang.Long">
+        select count(*) from event_record_project
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update event_record_project
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.eventRecordId != null">
+                event_record_id = #{record.eventRecordId,jdbcType=INTEGER},
+            </if>
+            <if test="record.pid != null">
+                pid = #{record.pid,jdbcType=INTEGER},
+            </if>
+            <if test="record.remark != null">
+                remark = #{record.remark,jdbcType=VARCHAR},
+            </if>
+            <if test="record.starLevel != null">
+                star_level = #{record.starLevel,jdbcType=TINYINT},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=BIGINT},
+            </if>
+            <if test="record.signUpTime != null">
+                sign_up_time = #{record.signUpTime,jdbcType=BIGINT},
+            </if>
+            <if test="record.deliveryCount != null">
+                delivery_count = #{record.deliveryCount,jdbcType=INTEGER},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update event_record_project
+        set id = #{record.id,jdbcType=INTEGER},
+        event_record_id = #{record.eventRecordId,jdbcType=INTEGER},
+        pid = #{record.pid,jdbcType=INTEGER},
+        remark = #{record.remark,jdbcType=VARCHAR},
+        star_level = #{record.starLevel,jdbcType=TINYINT},
+        create_time = #{record.createTime,jdbcType=BIGINT},
+        sign_up_time = #{record.signUpTime,jdbcType=BIGINT},
+        delivery_count = #{record.deliveryCount,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.welian.pojo.EventRecordProject">
+        update event_record_project
+        <set>
+            <if test="eventRecordId != null">
+                event_record_id = #{eventRecordId,jdbcType=INTEGER},
+            </if>
+            <if test="pid != null">
+                pid = #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="starLevel != null">
+                star_level = #{starLevel,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=BIGINT},
+            </if>
+            <if test="signUpTime != null">
+                sign_up_time = #{signUpTime,jdbcType=BIGINT},
+            </if>
+            <if test="deliveryCount != null">
+                delivery_count = #{deliveryCount,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.welian.pojo.EventRecordProject">
+    update event_record_project
+    set event_record_id = #{eventRecordId,jdbcType=INTEGER},
+      pid = #{pid,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      star_level = #{starLevel,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=BIGINT},
+      sign_up_time = #{signUpTime,jdbcType=BIGINT},
+      delivery_count = #{deliveryCount,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <select id="getEventRecord" resultMap="BaseResultMap" parameterType="map">
+    select erp.* from event_record_project erp join
+    (select id  from event_record where event_id = #{eventId,jdbcType=INTEGER}
+    and sign_up_type = 1 and state in (0,3))
+    er on er.id = erp.event_record_id and erp.pid = #{pid,jdbcType=INTEGER}
+  </select>
+
+    <select id="getEventRecordByExtensionLinkIdAndPid" resultMap="BaseResultMap" parameterType="map">
+      select * from event_record_project erp join
+      (select id as erid from event_record where extension_link_id = #{extensionLinkId,jdbcType=INTEGER} and sign_up_type = 1) er
+      on er.erid = erp.event_record_id and erp.pid = #{pid,jdbcType=INTEGER}
+   </select>
+
+</mapper>

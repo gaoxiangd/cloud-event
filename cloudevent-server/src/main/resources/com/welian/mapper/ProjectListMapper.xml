@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.welian.mapper.ProjectListMapper">
+    <resultMap id="BaseResultMap" type="com.welian.pojo.ProjectList">
+        <id column="pid" jdbcType="INTEGER" property="pid"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="intro" jdbcType="VARCHAR" property="intro"/>
+        <result column="city_name" jdbcType="VARCHAR" property="cityName"/>
+        <result column="industry_name" jdbcType="VARCHAR" property="industryName"/>
+        <result column="project_share" jdbcType="DOUBLE" property="projectShare"/>
+        <result column="project_amount" jdbcType="INTEGER" property="projectAmount"/>
+        <result column="project_amount_unit" jdbcType="TINYINT" property="projectAmountUnit"/>
+        <result column="project_stage" jdbcType="INTEGER" property="projectStage"/>
+        <result column="uid" jdbcType="INTEGER" property="uid"/>
+        <result column="extension_link_id" jdbcType="INTEGER" property="extensionLinkId"/>
+        <result column="sign_up_time" jdbcType="BIGINT" property="signUpTime"/>
+        <result column="event_record_id" jdbcType="INTEGER" property="eventRecordId"/>
+        <result column="star_level" jdbcType="TINYINT" property="starLevel"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="city_id" jdbcType="INTEGER" property="cityId"/>
+        <result column="industry_id" jdbcType="INTEGER" property="industryId"/>
+        <result column="project_sign_bp_id" jdbcType="INTEGER" property="projectSignBpId"/>
+        <result column="project_sign_bp_url" jdbcType="VARCHAR" property="projectSignBpUrl"/>
+        <result column="project_sign_bp_name" jdbcType="VARCHAR" property="projectSignBpName"/>
+        <result column="delivery_count" jdbcType="INTEGER" property="deliveryCount"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    pid, name, intro, city_name, industry_name, project_share, project_amount, project_amount_unit,
+    project_stage, uid, extension_link_id, sign_up_time, event_record_id, star_level,
+    remark, city_id, industry_id, project_sign_bp_id, project_sign_bp_url, project_sign_bp_name,
+    delivery_count
+  </sql>
+    <select id="selectProject" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        (select pbi.name,pbi.intro,pbi.city_name,pbi.industry_name ,pbi.project_share,pbi.project_amount,
+        pbi.project_amount_unit,pbi.project_stage,pbi.project_sign_bp_id,pbi.city_id,pbi.industry_id,
+        pbi.project_sign_bp_name,pbi.project_sign_bp_url,pp.* from project_backup_info pbi join (
+        select er.uid,er.extension_link_id,erp.sign_up_time,erp.event_record_id,erp.pid,erp.delivery_count,
+        erp.star_level,erp.remark from event_record_project erp join
+        (select * from event_record where org_id = #{orgId,jdbcType=INTEGER} and sign_up_type = 1
+        <if test="eventIds != null"> and event_id in (${eventIds}) </if>
+        and state in (0,3,4))
+        er
+        on er.id = erp.event_record_id) pp on pp.pid = pbi.pid and pbi.event_record_id = pp.event_record_id ) ps
+        where  1=1  <if test="condition != null"> ${condition} </if>
+        order by sign_up_time desc limit #{start,jdbcType=INTEGER},
+        #{size,jdbcType=INTEGER}
+    </select>
+    <select id="selectProjectCount" parameterType="map" resultType="java.lang.Integer">
+        select
+        count(*)
+        from
+        (select pbi.name,pbi.intro,pbi.city_name,pbi.industry_name ,pbi.project_share,pbi.project_amount,
+        pbi.project_amount_unit,pbi.project_stage,pbi.project_sign_bp_id,pbi.city_id,pbi.industry_id,
+        pbi.project_sign_bp_name,pbi.project_sign_bp_url,pp.* from project_backup_info pbi join (
+        select er.uid,er.extension_link_id,erp.sign_up_time,erp.event_record_id,erp.pid,erp.delivery_count,
+        erp.star_level,erp.remark from event_record_project erp join
+        (select * from event_record where org_id = #{orgId,jdbcType=INTEGER } and sign_up_type = 1
+        <if test="eventIds != null"> and event_id in (${eventIds}) </if>
+        and state in (0,3,4))
+        er
+        on er.id = erp.event_record_id) pp on pp.pid = pbi.pid and pbi.event_record_id = pp.event_record_id ) ps
+        where 1=1
+         <if test="condition != null"> ${condition} </if>
+    </select>
+</mapper>

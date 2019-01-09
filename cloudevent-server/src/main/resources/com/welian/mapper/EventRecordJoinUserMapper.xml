@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.welian.mapper.EventRecordJoinUserMapper">
+
+    <resultMap id="BaseResultMap" type="com.welian.pojo.EventRecordJoinUser">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="org_id" jdbcType="INTEGER" property="orgId"/>
+        <result column="event_id" jdbcType="INTEGER" property="eventId"/>
+        <result column="extension_link_id" jdbcType="INTEGER" property="extensionLinkId"/>
+        <result column="sign_up_type" jdbcType="TINYINT" property="signUpType"/>
+        <result column="uid" jdbcType="INTEGER" property="uid"/>
+        <result column="source" jdbcType="TINYINT" property="source"/>
+        <result column="state" jdbcType="TINYINT" property="state"/>
+        <result column="create_time" jdbcType="BIGINT" property="createTime"/>
+        <result column="modify_time" jdbcType="BIGINT" property="modifyTime"/>
+        <result column="ticket_id" jdbcType="INTEGER" property="ticketId"/>
+        <result column="order_number" jdbcType="VARCHAR" property="orderNumber"/>
+        <result column="reason" jdbcType="VARCHAR" property="reason"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="company" jdbcType="VARCHAR" property="company"/>
+        <result column="position" jdbcType="VARCHAR" property="position"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="trade_no" jdbcType="VARCHAR" property="tradeNo"/>
+        <result column="is_import" jdbcType="INTEGER" property="IsImport"/>
+    </resultMap>
+    <sql id="search">
+        select
+        eru.name,eru.phone,eru.company,eru.position,
+        er.*
+        from event_record_user eru join
+        (select * from event_record where event_id = #{eventId, jdbcType=INTEGER}
+        and state in (0,3,4) and ticket_lock = 0 ) er
+        on eru.event_record_id = er.id
+        <if test="name != null and name != '' ">
+            and eru.name like CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}), '%')
+        </if>
+        <if test="phone != null and phone != '' ">
+            and eru.phone like CONCAT(CONCAT('%', #{phone,jdbcType=VARCHAR}), '%')
+        </if>
+        <if test="state != null">
+            and er.state = #{state,jdbcType=INTEGER}
+        </if>
+        order by id desc
+    </sql>
+    <select id="searchForPage" resultMap="BaseResultMap">
+      <include refid="search"/>
+        limit #{start,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+    </select>
+    <select id="searchNoPage" resultMap="BaseResultMap">
+        <include refid="search"/>
+    </select>
+</mapper>

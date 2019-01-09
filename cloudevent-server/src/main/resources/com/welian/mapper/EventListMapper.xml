@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.welian.mapper.EventListMapper">
+    <resultMap id="BaseResultMap" type="com.welian.pojo.EventManage">
+        <result column="event_id" jdbcType="INTEGER" property="eventId"/>
+        <result column="open_extension" jdbcType="TINYINT" property="openExtension"/>
+        <result column="line_type" jdbcType="TINYINT" property="lineType"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="publish_uid" jdbcType="INTEGER" property="publishUid"/>
+        <result column="city_name" jdbcType="VARCHAR" property="cityName"/>
+        <result column="city_id" jdbcType="INTEGER" property="cityId"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="org_id" jdbcType="INTEGER" property="orgId"/>
+        <result column="hot_state" jdbcType="INTEGER" property="hotState"/>
+        <result column="recommend_state" jdbcType="INTEGER" property="recommendState"/>
+        <result column="state" jdbcType="INTEGER" property="state"/>
+        <result column="commodity_id" jdbcType="INTEGER" property="commodityId"/>
+        <result column="template_id" jdbcType="INTEGER" property="templateId"/>
+        <result column="coupon_status" jdbcType="INTEGER" property="couponStatus"/>
+    </resultMap>
+    <sql id="conditionContent">
+        from event e
+        join event_city_relation ecr on e.id= ecr.`event_id` and e.state not in (4)
+        <if test="beforeDeadLineTime!=null and beforeDeadLineTime">
+            and e.deadline_time > #{nowTime}
+        </if>
+        <if test="eventId != null">
+            and e.id not in(#{eventId})
+        </if>
+        <if test="state != null ">
+            <if test="state == 1 ">
+                and e.state in (0,1)
+            </if>
+            <if test="state == 2 ">
+                and e.state =2
+            </if>
+            <if test="state == 3 ">
+                and e.state = 3
+            </if>
+        </if>
+        <if test="type != null ">
+            <if test="type == 1 ">
+                and e.template_id =1
+            </if>
+            <if test="type == 2 ">
+                and e.template_id in(2,3)
+            </if>
+        </if>
+        <if test="eventName != null ">
+            and e.title like CONCAT ("%",#{eventName,jdbcType=VARCHAR},"%")
+        </if>
+        <if test="lineType != null ">
+            <if test="lineType == 0 ">
+                and e.line_type = 0
+            </if>
+            <if test="lineType == 1 ">
+                and e.line_type = 1
+            </if>
+        </if>
+        <if test="cityId != null and  cityId !=0">
+            and e.`city_id`=#{cityId,jdbcType=INTEGER}
+        </if>
+        <if test="timeType != null ">
+            <if test="timeType == 1 ">
+                <if test="startTime != null and startTime !=''">
+                    and e.create_time &gt;= #{startTime,jdbcType=VARCHAR}
+                </if>
+                <if test="endTime != null and endTime !=''">
+                    and e.create_time &lt; #{endTime,jdbcType=VARCHAR}
+                </if>
+            </if>
+            <if test="timeType == 2">
+                <if test="startTime != null and startTime !=''">
+                    and e.start_time &gt;= #{startTime,jdbcType=VARCHAR}
+                </if>
+                <if test="endTime != null and endTime !=''">
+                    and e.start_time &lt; #{endTime,jdbcType=VARCHAR}
+                </if>
+            </if>
+            <if test="timeType == 3 ">
+                <if test="startTime != null and startTime !=''">
+                    and e.end_time &gt;= #{startTime,jdbcType=VARCHAR}
+                </if>
+                <if test="endTime != null and endTime !=''">
+                    and e.end_time &lt; #{endTime,jdbcType=VARCHAR}
+                </if>
+            </if>
+            <if test="timeType == 4 ">
+                <if test="startTime != null and startTime !=''">
+                    and e.deadline_time &gt;= #{startTime,jdbcType=VARCHAR}
+                </if>
+                <if test="endTime != null and endTime !=''">
+                    and e.deadline_time &lt; #{endTime,jdbcType=VARCHAR}
+                </if>
+            </if>
+            <if test="timeType == 5 ">
+                <if test="startTime != null and startTime !=''">
+                    and ecr.recommend_time &gt;= #{startTime,jdbcType=VARCHAR}
+                </if>
+                <if test="endTime != null and endTime !=''">
+                    and ecr.recommend_time &lt; #{endTime,jdbcType=VARCHAR}
+                </if>
+            </if>
+        </if>
+        <if test="recommend != null ">
+            <if test="recommend == 1 ">
+                and ecr.`recommend_state`=1
+            </if>
+            <if test="recommend == 0 ">
+                and ecr.`recommend_state`=0
+            </if>
+        </if>
+        <if test="hot != null ">
+            <if test="hot == 1 ">
+                and ecr.`hot_state`=1
+            </if>
+            <if test="hot == 0 ">
+                and ecr.`hot_state`=0
+            </if>
+        </if>
+        <if test="recommendHomeStatus != null ">
+            <if test="recommendHomeStatus == 1 ">
+                and ecr.`recommend_home_status`=1
+            </if>
+            <if test="recommendHomeStatus == 0 ">
+                and ecr.`recommend_home_status`=0
+            </if>
+        </if>
+        <if test="recommendFinnacingStatus != null ">
+            <if test="recommendFinnacingStatus == 1 ">
+                and ecr.`recommend_financing_state`=1
+            </if>
+            <if test="recommendFinnacingStatus == 0 ">
+                and ecr.`recommend_financing_state`=0
+            </if>
+        </if>
+        group by e.id
+        <if test="orderType != null">
+            <if test="orderType ==1">
+                order by e.create_time desc
+            </if>
+            <if test="orderType ==2">
+                order by e.start_time desc
+            </if>
+        </if>
+    </sql>
+    <select id="searchForPage" resultMap="BaseResultMap">
+        select
+        e.coupon_status,e.commodity_id,e.state,e.id,e.`publish_uid`,e.org_id,e.`template_id`,e.title,e.open_extension,e.start_time,e.create_time,e.line_type,e.`address`,e.`city_id`,e.`city_name`,ecr.`event_id`,ecr.`hot_state`,ecr.`recommend_state`,ecr.`recommend_time`
+        <include refid="conditionContent"/>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+    <select id="countValidEvent" resultType="java.lang.Integer">
+        select count(1) from (
+        select e.id
+        <include refid="conditionContent"/>
+        )a
+    </select>
+
+</mapper>
